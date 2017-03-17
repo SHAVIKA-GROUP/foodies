@@ -1,0 +1,151 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>
+		Dashboard<small>Version 1.0</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><i class="fa fa-th"></i> Home</li>
+		<li><i class="fa fa-dashboard"></i> Dashboard</li>
+	</ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<div class="row" ng-controller="dashboardctrlOne">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<!-- =========================================================== -->
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="info-box">
+					<span class="info-box-icon"><img
+						src="./resources/assets/ico/ic_launcher.jpg" class="img-rounded"
+						alt="User Image" /></span>
+					<div class="info-box-content">
+						<span class="info-box-number">FOOD BOX</span> <span
+							class="info-box-text">This application is user to order
+							the foods in online.</span>
+
+					</div>
+					<!-- /.info-box-content -->
+				</div>
+				<!-- /.info-box -->
+			</div>
+		</div>
+		<!-- /.row -->
+		<!-- =========================================================== -->
+
+		<div class="row">
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="info-box bg-aqua">
+					<span class="info-box-icon"><i class="fa fa-neuter"></i></span>
+					<div class="info-box-content">
+						<span class="info-box-text">Placed</span> <span
+							class="info-box-number">{{PLCD_size}}</span>
+						<div class="progress">
+							<div class="progress-bar" style="{{callStyle(PLCD_percentage)}}"></div>
+						</div>
+						<span class="progress-description"> {{PLCD_percentage}}% out of {{PLCD_all}} Orders </span>
+					</div>
+					<!-- /.info-box-content -->
+				</div>
+				<!-- /.info-box -->
+			</div>
+			<!-- /.col -->
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="info-box bg-yellow">
+					<span class="info-box-icon"><i class="fa fa-transgender"></i></span>
+					<div class="info-box-content">
+						<span class="info-box-text">Confirmed</span> <span
+							class="info-box-number">{{CNFD_size}}</span>
+						<div class="progress">
+							<div class="progress-bar" style="{{callStyle(CNFD_percentage)}}"></div>
+						</div>
+						<span class="progress-description"> {{CNFD_percentage}}% out of {{CNFD_all}} Orders	</span>
+					</div>
+					<!-- /.info-box-content -->
+				</div>
+				<!-- /.info-box -->
+			</div>
+			<!-- /.col -->
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="info-box bg-red">
+					<span class="info-box-icon"><i class="fa fa-times"></i></span>
+					<div class="info-box-content">
+						<span class="info-box-text">Rejected</span> <span
+							class="info-box-number">{{RJKD_size}}</span>
+						<div class="progress">
+							<div class="progress-bar" style="{{callStyle(RJKD_percentage)}}"></div>
+						</div>
+						<span class="progress-description"> {{RJKD_percentage}}% out of {{RJKD_all}} Orders	</span>
+					</div>
+					<!-- /.info-box-content -->
+				</div>
+				<!-- /.info-box -->
+			</div>
+			<!-- /.col -->
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="info-box bg-green">
+					<span class="info-box-icon"><i class="fa fa-check"></i></span>
+					<div class="info-box-content">
+						<span class="info-box-text">Delivered</span> <span
+							class="info-box-number">{{DLRD_size}}</span>
+						<div class="progress">
+							<div class="progress-bar" style="{{callStyle(DLRD_percentage)}}"></div>
+						</div>
+						<span class="progress-description"> {{DLRD_percentage}}% out of {{DLRD_all}} Orders	</span>
+					</div>
+					<!-- /.info-box-content -->
+				</div>
+				<!-- /.info-box -->
+			</div>
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+
+		<!-- =========================================================== -->
+		<!-- Small boxes (Stat box) -->
+		<div class="row">
+			<div class="col-lg-6 col-xs-6" ng-repeat="menu in menulist">
+				<!-- small box -->
+				<div ng-class="checksunday(menu.date)" > <!-- class="small-box bg-aqua" -->
+				  <span class="small-box-footer"><h4><i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp;&nbsp;{{getFormatedDate(menu.date)}}</h4> </span>
+					<div class="inner">
+						<div align="left">
+							<p><i class="fa fa-circle-thin"></i>&nbsp;&nbsp;&nbsp;{{menu.bfst_title}}</p>
+						</div>
+						<div align="left">
+							<p><i class="fa fa-adjust"></i>&nbsp;&nbsp;&nbsp;{{menu.luch_title}}</p>
+						</div>
+						<div align="left">
+							<p><i class="fa fa-circle"></i>&nbsp;&nbsp;&nbsp;{{menu.dinr_title}}</p>
+						</div>
+					</div>
+					<div class="icon">
+						<i class="fa fa-truck"></i>
+					</div>
+					<a href="#/menu" class="small-box-footer"> More info <i class="fa fa-arrow-circle-right"></i></a>
+				</div>
+			</div>
+			<!-- ./col -->
+			<div class="col-lg-6 col-xs-6">
+				<!-- small box -->
+				<div class="small-box bg-yellow">
+					<div class="inner">
+						<h3>{{user_registred}}</h3>
+						<p>User Registred</p>
+						<h3>&nbsp;</h3>
+					</div>
+					<div class="icon">
+						<i class="ion ion-person-add"></i>
+					</div>
+					<a href="#/customers" class="small-box-footer"> More info <i
+						class="fa fa-arrow-circle-right"></i>
+					</a>
+				</div>
+			</div>
+			<!-- ./col -->
+		</div>
+		<!-- /.row -->
+		</div>
+	</div>
+</section>

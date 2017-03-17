@@ -1,0 +1,125 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>
+		Employee List&nbsp;&nbsp;&nbsp;<small>Shows employee data</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><i class="fa fa-th"></i> Home</li>
+		<li><i class="fa fa-user"></i> Employee</li>
+	</ol>
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+
+	<!-- =========================================================== -->
+
+	<div class="row" ng-controller="employeeListCtrl">
+		<div class="col-xs-12">
+			<div class="box box-info">
+				<div class="box-header">
+					<div class="form-group">
+						<div class="col-sm-3">
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="fa fa-filter"></i>
+								</div>
+								<select class="form-control select2" style="width: 100%;">
+									<option selected="selected">--- Filter ---</option>
+									<option>Company 1</option>
+									<option>Department 1.1</option>
+									<option>Department 1.2</option>
+									<option>Company 2</option>
+									<option>Department 2.1</option>
+									<option>Department 2.2</option>
+									<option>Department 2.3</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<button type="button" class="btn btn-info pull-left">Go</button>
+						</div>
+						<div class="col-sm-5">&nbsp;</div>
+						<div class="col-sm-2">
+							<a href="" ng-click="addItem()" class="btn bth-lg btn-block btn-success">Add Employee</a>
+						</div>
+					</div>
+				</div>
+				<div class="box-body">
+					<table id="example1" datatable="ng" dt-options="dtOptions" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Employee ID</th>
+								<th>Employee Name</th>
+								<th>Designation</th>
+								<th>City</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody ng-hide="loading">
+							<tr ng-repeat="emp in employees">
+								<td>{{$index + 1}}</td>
+								<td>{{emp.employeeId}}</td>
+								<td>{{emp.firstName}} {{emp.lastName}}</td>
+								<td>{{emp.designation}}</td>
+								<td>{{emp.city}}</td>
+								<td>
+									<div class="form-group">
+										<i class="btn glyphicon glyphicon-edit" ng-click="editItem(emp)" title="Edit"></i> 
+										<i class="btn glyphicon glyphicon-trash" ng-click="deleteItem(emp)" title="Delete"></i>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+						<div class="overlay" ng-show="loading">
+							<tr ng-show="loading">
+								<td colspan="6" align="center"><i class="fa fa-refresh fa-spin"></i>&nbsp;&nbsp;Loading...</td>
+							</tr>
+						</div>
+						<tfoot>
+							<tr>
+								<th>#</th>
+								<th>Employee ID</th>
+								<th>Employee Name</th>
+								<th>Designation</th>
+								<th>City</th>
+								<th>Action</th>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				<div class="box-footer">
+					<div class="form-group">
+						<div class="col-xs-2">
+							<button type="button" class="btn btn-default pull-left">Download Template</button>
+						</div>
+						<div class="col-xs-2">
+							<button type="button" class="btn btn-default pull-left">Upload Excel</button>
+						</div>
+						<div class="col-xs-6">&nbsp;</div>
+						<div class="col-xs-2">
+							<a href="" ng-click="addItem()" class="btn bth-lg btn-block btn-success">Add Employee</a>
+						</div>
+					</div>
+				</div>
+				<!-- /.box-footer -->
+			</div>
+		</div>
+	</div>
+	<!-- =========================================================== -->
+</section>
+<script>
+	$(function() {
+		$("#example1").DataTable();
+		$('#example2').DataTable({
+			"paging" : true,
+			"lengthChange" : true,
+			"searching" : true,
+			"ordering" : true,
+			"info" : true,
+			"autoWidth" : false
+		});
+	});
+</script>

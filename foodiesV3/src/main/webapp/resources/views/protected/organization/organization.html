@@ -1,0 +1,330 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>
+		Organization&nbsp;&nbsp;&nbsp;<small>Main Org. Details</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><i class="fa fa-th"></i> Home</li>
+		<li><i class="fa fa-laptop"></i> Organization</li>
+	</ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<div class="row" ng-controller="organizationCtrl">
+		<div class="col-xs-12">
+			<div class="box box-info">
+				<form ng-submit="submit()" name="orgForm" class="form-horizontal" novalidate>
+					<input type="hidden" ng-model="organization.id" />
+					<div class="box-header">
+						<div class="form-group">
+							<div class="col-xs-12 pull-left">
+								<font color="red">*</font>&nbsp;Marked Fields Are Mandatory
+							</div>
+						</div>
+					</div>
+					<div class="box-body">
+						<div class="col-xs-10">
+						
+							<div class="form-group">
+								<label for="organizationName" class="col-sm-4 control-label">Name&nbsp;<font color="red">*</font></label>
+								<div class="col-sm-7">
+									<input type="text" ng-model="organization.name" id="name" name="name" class="form-control" placeholder="Organization Name" required ng-maxlength="10" />
+									<div class="form-group has-error" ng-show="orgForm.name.$dirty">
+										<label ng-show="orgForm.name.$error.required" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> This is a required field</label> 
+										<label ng-show="orgForm.name.$error.maxlength" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Minimum length required is 15</label>
+									</div>
+								</div>
+								<div class="col-sm-1">
+									<div class="form-group has-success" ng-show="orgForm.name.$valid">
+										<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+									</div>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label for="organizationId" class="col-sm-4 control-label">Type&nbsp;<font color="red">*</font></label>
+								<div class="col-sm-7">
+									<select name="orgTypeId" class="form-control select2" style="width: 100%;" ng-model="selectedOrg" 
+									ng-options="OrgType.type for OrgType in OrgTypes" required ng-change="changedOrgTypeValue(selectedOrg)">
+										<option value="">-- Select --</option>
+									</select>
+									<div class="form-group has-error" ng-show="orgForm.orgTypeId.$dirty">
+										<label ng-show="orgForm.orgTypeId.$invalid" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Select Organization Type</label> 
+									</div>
+								</div>
+								<div class="col-sm-1">
+									<div class="form-group has-success" ng-show="orgForm.orgTypeId.$valid">
+										<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="organizationId" class="col-sm-4 control-label">Parent&nbsp;<font color="red">*</font></label>
+								<div class="col-sm-7">
+									<select name="orgId" class="form-control select2" style="width: 100%;" ng-model="selectedOrgParent"
+									ng-options="OrgParent.name for OrgParent in OrgParents" required ng-change="changedOrgValue(selectedOrgParent)">
+										<option value="">-- Select --</option>
+									</select>
+									<div class="form-group has-error" ng-show="orgForm.orgId.$dirty">
+										<label ng-show="orgForm.orgId.$invalid" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Select Parent Organization</label> 
+									</div>
+								</div>
+								<div class="col-sm-1">
+									<div class="form-group has-success" ng-show="orgForm.orgId.$valid">
+										<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="organizationName" class="col-sm-4 control-label">Registration No</label>
+								<div class="col-sm-7">
+									<input type="number" ng-model="organization.registrationNumber" id="regnum" name="regnum" class="form-control" placeholder="Registration Number" ng-minlength="5" ng-maxlength="10" />
+									<div class="form-group has-error" ng-show="orgForm.regnum.$dirty">
+										<label ng-show="orgForm.regnum.$error.minlength" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Minimum length required is 5</label> 
+										<label ng-show="orgForm.regnum.$error.maxlength" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Maximum length required is 10</label>
+									</div>
+								</div>
+								<div class="col-sm-1">
+									<div class="form-group has-success" ng-show="orgForm.regnum.$valid && !orgForm.regnum.$pristine">
+										<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="organizationId" class="col-sm-4 control-label">Address Line-1&nbsp;<font color="red">*</font></label>
+								<div class="col-sm-7">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-map-marker"></i></span> 
+										<input type="text" ng-model="organization.addressLineOne" id="addLOne" name="addLOne" class="form-control" placeholder="address line 1" required ng-maxlength="100" />
+									</div>
+									<div class="form-group has-error" ng-show="orgForm.addLOne.$dirty">
+										<label ng-show="orgForm.addLOne.$error.required" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> This is a required field</label> 
+										<label ng-show="orgForm.addLOne.$error.maxlength" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Minimum length required is 100</label>
+									</div>
+								</div>
+								<div class="col-sm-1">
+									<div class="form-group has-success" ng-show="orgForm.addLOne.$valid">
+										<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="organizationName" class="col-sm-4 control-label">Address Line-2</label>
+								<div class="col-sm-7">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-map-marker"></i></span> 
+										<input type="text" ng-model="organization.addressLineTwo" id="addLTwo" name="addLTwo" class="form-control" placeholder="address line 2" />
+									</div>
+									<div class="form-group has-error" ng-show="orgForm.addLTwo.$dirty">
+										<label ng-show="orgForm.addLTwo.$error.maxlength" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Minimum length required is 100</label>
+									</div>
+								</div>
+								<div class="col-sm-1">
+									<div class="form-group has-success" ng-show="orgForm.addLTwo.$valid && !orgForm.addLTwo.$pristine">
+										<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="organizationName" class="col-sm-4 control-label">City&nbsp;<font color="red">*</font></label>
+								<div class="col-sm-7">
+									<input type="text" ng-model="organization.city" id="city" name="city" class="form-control" placeholder="City"  required ng-maxlength="40"/>
+									<div class="form-group has-error" ng-show="orgForm.city.$dirty">
+										<label ng-show="orgForm.city.$error.required" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> This is a required field</label> 
+										<label ng-show="orgForm.city.$error.maxlength" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Minimum length required is 50</label>
+									</div>
+								</div>
+								<div class="col-sm-1">
+									<div class="form-group has-success" ng-show="orgForm.city.$valid">
+										<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="organizationName" class="col-sm-4 control-label">State/Province</label>
+								<div class="col-sm-7">
+									<input type="text" ng-model="organization.province" id="province" name="province" class="form-control" placeholder="State" ng-maxlength="40"/>
+									<div class="form-group has-error" ng-show="orgForm.province.$dirty">
+										<label ng-show="orgForm.province.$error.maxlength" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Minimum length required is 40</label>
+									</div>
+								</div>
+								<div class="col-sm-1">
+									<div class="form-group has-success" ng-show="orgForm.province.$valid && !orgForm.province.$pristine">
+										<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="organizationId" class="col-sm-4 control-label">Country&nbsp;<font color="red">*</font></label>
+								<div class="col-sm-7">
+									<select name="countryId" class="form-control select2" style="width: 100%;" ng-model="selectedCountry" 
+										ng-options="Country.name for Country in Countries" required ng-change="changedCountry(selectedCountry)">
+										<option value="">-- Select --</option>
+									</select>
+									<div class="form-group has-error" ng-show="orgForm.countryId.$dirty">
+										<label ng-show="orgForm.countryId.$invalid" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Select Country</label> 
+									</div>
+								</div>
+								<div class="col-sm-1">
+									<div class="form-group has-success" ng-show="orgForm.countryId.$valid">
+										<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="organizationId" class="col-sm-4 control-label">Logo</label>
+								<div class="col-sm-8">
+									<img id="logo" src="http://localhost:8080/AttendanceTracker/resources/assets/images/user_male.png" class="img-polaroid img-thumbnail" style="max-width: 50px; max-height: 50px;" />
+									<button type="submit" class="btn btn-default btn-sm">
+										<i class="fa fa-camera-retro"></i>&nbsp;Upload
+									</button>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="organizationId" class="col-sm-4 control-label">Time Zone&nbsp;<font color="red">*</font></label>
+								<div class="col-sm-7">
+									<select name="timezoneId" class="form-control select2" style="width: 100%;" ng-model="selectedTimeZone" 
+									ng-options="TimeZone.name for TimeZone in TimeZones" required ng-change="changedTimeZone(selectedTimeZone)">
+										<option value="">-- Select --</option>
+									</select>
+									<div class="form-group has-error" ng-show="orgForm.timezoneId.$dirty">
+										<label ng-show="orgForm.timezoneId.$invalid" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Select Time Zone</label> 
+									</div>
+								</div>
+								<div class="col-sm-1">
+									<div class="form-group has-success" ng-show="orgForm.timezoneId.$valid">
+										<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="organizationId" class="col-sm-4 control-label">Currency&nbsp;<font color="red">*</font></label>
+								<div class="col-sm-7">
+									<select name="currencyId" class="form-control select2" style="width: 100%;"  ng-model="selectedCurrency"
+									   ng-options="Currency.name for Currency in Currencies" required ng-change="changedCurrency(selectedCurrency)">
+										<option value="">-- Select --</option>
+									</select>
+									<div class="form-group has-error" ng-show="orgForm.currencyId.$dirty">
+										<label ng-show="orgForm.currencyId.$invalid" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Select Currency</label> 
+									</div>
+								</div>
+								<div class="col-sm-1">
+									<div class="form-group has-success" ng-show="orgForm.currencyId.$valid">
+										<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="organizationShortName" class="col-sm-4 control-label">Phone Number-1&nbsp;<font color="red">*</font></label>
+								<div class="col-sm-7">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-phone"></i></span> 
+										<input type="text" ng-model="organization.phoneNumber1" id="phoneOne" name="phoneOne" class="form-control" data-inputmask='"mask": "(+99) 999 999 9999"' data-mask required>
+									</div>
+									<div class="form-group has-error" ng-show="orgForm.phoneOne.$dirty">
+										<label ng-show="orgForm.phoneOne.$error.required" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> This is a required field</label> 
+									</div>
+								</div>
+								<div class="col-sm-1">
+									<div class="form-group has-success" ng-show="orgForm.phoneOne.$valid">
+										<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="organizationShortName" class="col-sm-4 control-label">Phone Number-2</label>
+								<div class="col-sm-7">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-phone"></i></span> 
+										<input type="text" ng-model="organization.phoneNumber2" id="phoneTwo" name="phoneTwo" class="form-control" data-inputmask='"mask": "(+99) 999 999 9999"' data-mask>
+									</div>
+									<div class="form-group has-error" ng-show="orgForm.phoneTwo.$dirty">
+										<label ng-show="orgForm.phoneTwo.$error.required" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> This is a required field</label> 
+									</div>
+								</div>
+								<div class="col-sm-1">
+									<div class="form-group has-success" ng-show="orgForm.phoneTwo.$valid && !orgForm.phoneTwo.$pristine">
+										<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="organizationShortName" class="col-sm-4 control-label">Fax</label>
+								<div class="col-sm-7">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-fax"></i></span> 
+										<input type="text" ng-model="organization.fax" id="fax" name="fax" class="form-control" data-inputmask='"mask": "(+99) 999 999 9999"' data-mask>
+									</div>
+									<div class="form-group has-error" ng-show="orgForm.fax.$dirty">
+										<label ng-show="orgForm.fax.$error.required" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> This is a required field</label> 
+									</div>
+								</div>
+								<div class="col-sm-1">
+									<div class="form-group has-success" ng-show="orgForm.fax.$valid && !orgForm.fax.$pristine">
+										<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="organizationShortName" class="col-sm-4 control-label">Web Site</label>
+								<div class="col-sm-7">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-globe"></i></span> 
+										<input type="text" ng-model="organization.website" id="website" name="website" class="form-control" id="organizationShortName" placeholder="Ex: www.xyz.in" ng-maxlength="35"/>
+									</div>
+								    <div class="form-group has-error" ng-show="orgForm.website.$dirty">
+										<label ng-show="orgForm.website.$error.required" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> This is a required field</label> 
+										<label ng-show="orgForm.website.$error.maxlength" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Minimum length required is 35</label>
+									</div>
+								</div>
+								<div class="col-sm-1">
+									<div class="form-group has-success" ng-show="orgForm.website.$valid && !orgForm.website.$pristine">
+										<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="organizationShortName" class="col-sm-4 control-label">Email</label>
+								<div class="col-sm-7">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-envelope"></i></span> 
+										<input type="email" ng-model="organization.email" id="email" name="email" class="form-control" placeholder="Ex: abc@domain.com" />
+									</div>
+								    <div class="form-group has-error" ng-show="orgForm.email.$dirty">
+										<label ng-show="orgForm.email.$invalid" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Enter proper Email address</label> 
+									</div>
+								</div>
+								<div class="col-sm-1">
+									<div class="form-group has-success" ng-show="orgForm.email.$valid && !orgForm.email.$pristine">
+										<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="organizationId" class="col-sm-4 control-label">Note</label>
+								<div class="col-sm-7">
+									<textarea class="form-control" type="textarea" rows="5" id="address" name="Comment" />
+								</div>
+								<div class="col-sm-1">&nbsp;</div>
+							</div>
+						</div>
+					</div>
+					<div class="box-footer">
+						<button type="button" ng-click="reset()" class="btn btn-default pull-left" ng-disabled="orgForm.$pristine">Reset</button>
+						<input type="submit" value="{{!organization.id ? 'Save' : 'Update'}}" class="btn btn-success pull-right" ng-disabled="orgForm.$invalid" />
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	$(function() {
+		$("#phoneOne").inputmask();
+		$("#phoneTwo").inputmask();
+		$("#fax").inputmask();
+	});
+</script>

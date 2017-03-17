@@ -1,0 +1,97 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>
+		Customers List&nbsp;&nbsp;&nbsp;<small>Shows registered customers</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><i class="fa fa-th"></i> Home</li>
+		<li><i class="fa fa-user"></i> Customers</li>
+	</ol>
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+
+	<!-- =========================================================== -->
+
+	<div class="row" ng-controller="customersListCtrl">
+		<div class="col-xs-12">
+			<div class="box box-info">
+				<!-- 
+				<div class="box-header">
+					<div class="form-group">
+						<div class="col-sm-7">&nbsp;</div>
+						<div class="col-sm-4">
+							<div class="input-group pull-right">
+								<div class="input-group-addon">
+									<i class="fa fa-filter"></i>
+								</div>
+								<select class="form-control select2" style="width: 100%;">
+									<option value="1" selected="selected">--- Filter ---</option>
+									<option value="2">Placed Orders</option>
+									<option value="3">Oder Confirmed</option>
+									<option value="4">Rejected Orders</option>
+									<option value="5">Next Day Orders</option>
+									<option value="6">Delivered Orders</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-1">
+							<button type="button" class="btn btn-info pull-right">Go</button>
+						</div>
+					</div>
+				</div> -->
+				
+				<div class="box-body">
+					<table id="example1" datatable="ng" dt-options="dtOptions" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Customer ID</th>
+								<th>Customer Name</th>
+								<th>Address</th>
+								<th>Email</th>
+								<th>Phone</th>
+								<th>City</th>
+								<th>Pincode</th>
+							</tr>
+						</thead>
+						<tbody ng-hide="loading">
+							<tr ng-repeat="customer in customers">
+								<td>{{$index + 1}}</td>
+								<td>{{customer.customer_item_id}}</td>
+								<td>{{customer.first_name}} {{customer.last_name}}</td>
+								<td width='30%'>{{customer.address_1}}, {{customer.address_2}}, {{customer.street}}, {{order.customer.land_mark}}
+								</td>
+								<td>{{customer.email}}</td>
+								<td>{{customer.phone}}</td>
+								<td>{{customer.city}}</td>
+								<td>{{customer.pincode}}</td>
+							</tr>
+						</tbody>
+						<div class="overlay" ng-show="loading">
+							<tr ng-show="loading">
+								<td colspan="7" align="center"><i class="fa fa-refresh fa-spin"></i>&nbsp;&nbsp;Loading...</td>
+							</tr>
+						</div>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- =========================================================== -->
+</section>
+<script>
+	$(function() {
+		$("#example1").DataTable();
+		$('#example2').DataTable({
+			"paging" : true,
+			"lengthChange" : true,
+			"searching" : true,
+			"ordering" : true,
+			"info" : true,
+			"autoWidth" : false
+		});
+	});
+</script>

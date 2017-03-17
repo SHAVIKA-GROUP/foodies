@@ -1,0 +1,391 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>
+		Food Menu&nbsp;&nbsp;&nbsp;<small>Configure Food Menu</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><i class="fa fa-th"></i> Home</li>
+		<li><i class="fa fa-ship"></i> Menu</li>
+		<li><i class="fa fa-circle"></i> Food Menu</li>
+	</ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<div class="row" ng-controller="menuCtrl">
+		<div class="col-xs-12">
+		
+			<!-- *********************** Tab Layout **************** -->
+			<div class="nav-tabs-custom">
+                <ul class="nav nav-tabs pull-right">
+                  <li><a href="#tab_dinner" target="_self" data-toggle="tab"><i class="fa fa-circle"></i>&nbsp;&nbsp;&nbsp;Dinner</a></li>
+                  <li><a href="#tab_lunch" target="_self" data-toggle="tab"><i class="fa fa-adjust"></i>&nbsp;&nbsp;&nbsp;Lunch</a></li>
+                  <li class="active"><a href="#tab_breakfast" target="_self" data-toggle="tab"><i class="fa fa-circle-thin"></i>&nbsp;&nbsp;&nbsp;Breakfast</a></li>
+                  <li class="pull-left header">
+                  	<div class="col-md-3">
+                  		<div class="input-group">
+                      		<div class="input-group-addon">
+                        		<i class="fa fa-calendar"></i>
+                      		</div>
+                      		<!-- ><i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp; <label id="datepicker" ng-bind-template="{{formatDate}}" ></label>  -->
+                      		<input type="text" class="form-control" id="datepicker" name="datepicker" ng-model="formatDate" readonly="readonly"/>
+                      		<span class="input-group-btn">
+                      			<button class="btn btn-default btn-flat" ng-click="go_submit()" type="button">Go</button>
+                    		</span>
+                    	</div>
+                    </div>
+                  </li>
+                </ul>
+                
+	                <div class="tab-content">
+	                <!-- *********************** Tab Layout / Breakfast **************** -->
+	                  <div class="tab-pane active" id="tab_breakfast">
+	                  		<div class="box box-info">
+		                	<form ng-submit="bfst_submit()" name="menuBForm" class="form-horizontal" novalidate>
+							<input type="hidden" name="bfst_id" ng-model="menu.bfst_id" ng-value="{{menu.bfst_id}}" />
+							<!--  <input type="hidden" name="menutypeid" ng-model="menu.menutypeid" ng-init="menu.menutypeid=1" />
+							<input type="hidden" name="date" ng-model="menu.date" ng-value="{{menu.date}}" />
+							<input type="hidden" name="unique_id" ng-model="menu.unique_id" ng-value="{{menu.unique_id}}" />   -->
+								<div class="box-header">
+									<div class="form-group">
+										<div class="col-md-5  pull-left">
+											<b>BreakFast</b>&nbsp;&nbsp;&nbsp;<font color="red">*</font>&nbsp;Marked fields are mandatory.
+										</div>
+										<div class="col-md-5  pull-left">
+										<div class="alert alert-success" id="bfst-alert">
+										    <div id="bfst_alert_message"></div>
+										</div>
+										</div>
+									</div>
+								</div>
+								<div class="box-body">
+									<div class="col-xs-10">
+										<div class="form-group">
+											<label for="menu-bfst-titleTitle" class="col-sm-4 control-label">Title&nbsp;<font color="red">*</font></label>
+											<div class="col-sm-7">
+												<input type="text" ng-model="menu.bfst_title" id="bfst_title" name="bfst_title" class="form-control" placeholder="Menu Title" required ng-maxlength="50" />
+												<div class="form-group has-error" ng-show="menuBForm.bfst_title.$dirty">
+													<label ng-show="menuBForm.bfst_title.$error.required" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> This is a required field</label>
+													<label ng-show="menuBForm.bfst_title.$error.maxlength" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Title is exied maximum length</label>
+												</div>
+											</div>
+											<div class="col-sm-1">
+												<div class="form-group has-success" ng-show="menuBForm.bfst_title.$valid">
+													<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+												</div>
+											</div>
+										</div>
+										
+										<div class="form-group">
+											<label for="menu-bfst_SubTitle" class="col-sm-4 control-label">Sub Title&nbsp;<font color="red">*</font>
+											</label>
+											<div class="col-sm-7">
+												<input type="text" ng-model="menu.bfst_subtitle" id="bfst_subtitle" name="bfst_subtitle" class="form-control" placeholder="Menu Sub Title" required ng-maxlength="70" />
+												<div class="form-group has-error" ng-show="menuBForm.bfst_subtitle.$dirty">
+													<label ng-show="menuBForm.bfst_subtitle.$error.required" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> This is a required field</label>
+													<label ng-show="menuBForm.bfst_subtitle.$error.maxlength" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> SubTitle is exied maximum length</label>
+												</div>
+											</div>
+											<div class="col-sm-1">
+												<div class="form-group has-success" ng-show="menuBForm.bfst_subtitle.$valid">
+													<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+												</div>
+											</div>
+										</div>
+										
+										<div class="form-group">
+											<label for="menu-bfst-Description" class="col-sm-4 control-label">Menu Description&nbsp;<font color="red">*</font>
+											</label>
+											<div class="col-sm-7">
+												<textarea type="textarea" ng-model="menu.bfst_description" id="bfst_description" name="bfst_description" class="form-control" rows="5" placeholder="Menu Description" required />
+												<div class="form-group has-error" ng-show="menuBForm.bfst_description.$dirty"> 
+													<label ng-show="menuBForm.bfst_description.$error.required" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> This is a required field</label>
+												</div>
+											</div>
+											<div class="col-sm-1">
+												<div class="form-group has-success" ng-show="menuBForm.bfst_description.$valid">
+													<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="menu-bfst-Price" class="col-sm-4 control-label">Price&nbsp;<font color="red">*</font></label>
+											<div class="col-sm-7">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa fa-inr"></i></span>
+													<input type="number" ng-model="menu.bfst_price" id="bfst_price" name="bfst_price" class="form-control"  required>
+												</div>
+												<div class="form-group has-error" ng-show="menuBForm.bfst_price.$dirty">
+													<label ng-show="menuBForm.bfst_price.$error.required" class="control-label" for="inputError"><i	class="fa fa-times-circle-o"></i> This is a required field</label>
+												</div>
+											</div>
+											<div class="col-sm-1">
+												<div class="form-group has-success" ng-show="menuBForm.bfst_price.$valid">
+													<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="menu-bfst-image" class="col-sm-4 control-label">Upload Image</label>
+											<div class="col-sm-8">
+												<button type="submit" ng-model="menu.bfst_image" id="bfst_image" name="bfst_image" ng-init="menu.bfst_image='N/A'" class="btn btn-default btn-sm" 	data-toggle="modal" data-target=".bs-example-modal-sm">
+													<i class="fa fa-camera-retro"></i>&nbsp;Upload
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="box-footer">
+									<button type="button" ng-click="bfst_reset()" class="btn btn-default pull-left" ng-disabled="menuBForm.$pristine">Reset</button>
+									<input type="submit" value="{{!menu.bfst_id ? 'Save' : 'Update'}}" class="btn btn-success pull-right" ng-disabled="menuBForm.$invalid" />
+								</div>
+                			</form>	
+						</div>
+						<div id="mydiv">
+						    <img src="./resources/assets/image/ajax-loader.gif" class="ajax-loader"/>
+						</div>
+	                  </div><!-- /.tab-pane -->
+	                  <!-- *********************** Tab Layout / Lunch **************** -->
+	                  <div class="tab-pane" id="tab_lunch">
+	                  	 <div class="box box-success">
+		                	<form ng-submit="luch_submit()" name="menuLForm" class="form-horizontal" novalidate>
+							<input type="hidden" name="luch_id" ng-model="menu.luch_id" ng-value="{{menu.luch_id}}" />
+							<!-- <input type="hidden" name="menutypeid" ng-model="menu.menutypeid" ng-init="menu.menutypeid=2" />
+							<input type="hidden" name="date" ng-model="menu.date" ng-value="{{menu.date}}" />
+							<input type="hidden" name="unique_id" ng-model="menu.unique_id" ng-value="{{menu.unique_id}}" />  -->  
+								<div class="box-header">
+									<div class="form-group">
+										<div class="col-md-7  pull-left">
+											<b>Lunch</b>&nbsp;&nbsp;&nbsp;<font color="red">*</font>&nbsp;Marked fields are mandatory.
+										</div>
+										<div class="col-md-5  pull-left">
+										<div class="alert alert-success" id="luch-alert">
+										    <div id="luch_alert_message"></div>
+										</div>
+										</div>
+									</div>
+								</div>
+								<div class="box-body">
+									<div class="col-xs-10">
+										<div class="form-group">
+											<label for="menu-luch-title" class="col-sm-4 control-label">Title&nbsp;<font color="red">*</font></label>
+											<div class="col-sm-7">
+												<input type="text" ng-model="menu.luch_title" id="luch_title" name="luch_title" class="form-control" placeholder="Menu Title" required ng-maxlength="50" />
+												<div class="form-group has-error" ng-show="menuLForm.luch_title.$dirty">
+													<label ng-show="menuLForm.luch_title.$error.required" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> This is a required field</label>
+													<label ng-show="menuLForm.luch_title.$error.maxlength" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Title is exied maximum length</label>
+												</div>
+											</div>
+											<div class="col-sm-1">
+												<div class="form-group has-success" ng-show="menuLForm.luch_title.$valid">
+													<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="menu-luch-subtitle" class="col-sm-4 control-label">Sub Title&nbsp;<font color="red">*</font>
+											</label>
+											<div class="col-sm-7">
+												<input type="text" ng-model="menu.luch_subtitle" id="luch_subtitle" name="luch_subtitle" class="form-control" placeholder="Menu Sub Title" required ng-maxlength="70" />
+												<div class="form-group has-error" ng-show="menuLForm.luch_subtitle.$dirty">
+													<label ng-show="menuLForm.luch_subtitle.$error.required" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> This is a required field</label>
+													<label ng-show="menuLForm.luch_subtitle.$error.maxlength" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> SubTitle is exied maximum length</label>
+												</div>
+											</div>
+											<div class="col-sm-1">
+												<div class="form-group has-success" ng-show="menuLForm.luch_subtitle.$valid">
+													<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="menu-luch-Description" class="col-sm-4 control-label">Menu Description&nbsp;<font color="red">*</font>
+											</label>
+											<div class="col-sm-7">
+												<textarea type="textarea" ng-model="menu.luch_description" id="luch_description" name="luch_description" class="form-control" rows="5" placeholder="Menu Description" required />
+												<div class="form-group has-error" ng-show="menuLForm.luch_description.$dirty"> 
+													<label ng-show="menuLForm.luch_description.$error.required" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> This is a required field</label>
+												</div>
+											</div>
+											<div class="col-sm-1">
+												<div class="form-group has-success" ng-show="menuLForm.luch_description.$valid">
+													<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="menu-luch-Price" class="col-sm-4 control-label">Price&nbsp;<font color="red">*</font></label>
+											<div class="col-sm-7">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa fa-inr"></i></span>
+													<input type="number" ng-model="menu.luch_price" id="luch_price" name="luch_price" class="form-control" required>
+												</div>
+												<div class="form-group has-error" ng-show="menuLForm.luch_price.$dirty">
+													<label ng-show="menuLForm.luch_price.$error.required" class="control-label" for="inputError"><i	class="fa fa-times-circle-o"></i> This is a required field</label>
+												</div>
+											</div>
+											<div class="col-sm-1">
+												<div class="form-group has-success" ng-show="menuLForm.luch_price.$valid">
+													<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="menu-luch-image" class="col-sm-4 control-label">Upload Image</label>
+											<div class="col-sm-8">
+												<button type="submit" ng-model="menu.luch_image" id="luch_image" name="luch_image"  ng-init="menu.luch_image='N/A'" class="btn btn-default btn-sm" 	data-toggle="modal" data-target=".bs-example-modal-sm">
+													<i class="fa fa-camera-retro"></i>&nbsp;Upload
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="box-footer">
+									<button type="button" ng-click="luch_reset()" class="btn btn-default pull-left" ng-disabled="menuLForm.$pristine">Reset</button>
+									<input type="submit" value="{{!menu.luch_id ? 'Save' : 'Update'}}" class="btn btn-success pull-right" ng-disabled="menuLForm.$invalid" />
+								</div>
+                			</form>	
+						</div>
+						<div id="mydiv1">
+						    <img src="./resources/assets/image/ajax-loader.gif" class="ajax-loader"/>
+						</div>
+					   </div><!-- /.tab-pane -->
+	                  <!-- *********************** Tab Layout / Dinner **************** -->
+	                  <div class="tab-pane" id="tab_dinner">
+	                  	 <div class="box box-warning">
+		                	<form ng-submit="dinr_submit()" name="menuDForm" class="form-horizontal" novalidate>
+							<input type="hidden" name="dinr_id" ng-model="menu.dinr_id" ng-value="{{menu.dinr_id}}" />
+							<!--  <input type="hidden" name="menutypeid" ng-model="menu.menutypeid" ng-init="menu.menutypeid=3" />
+							<input type="hidden" name="date" ng-model="menu.date" ng-value="{{menu.date}}" />
+							<input type="hidden" name="unique_id" ng-model="menu.unique_id" ng-value="{{menu.unique_id}}" />   -->
+								<div class="box-header">
+									<div class="form-group">
+										<div class="col-md-7  pull-left">
+											<b>Dinner</b>&nbsp;&nbsp;&nbsp;<font color="red">*</font>&nbsp;Marked fields are mandatory.
+										</div>
+										<div class="col-md-5  pull-left">
+										<div class="alert alert-success" id="dinr-alert">
+										    <div id="dinr_alert_message"></div>
+										</div>
+										</div>
+									</div>
+								</div>
+								<div class="box-body">
+									<div class="col-xs-10">
+										<div class="form-group">
+											<label for="menu-dinr-title" class="col-sm-4 control-label">Title&nbsp;<font color="red">*</font></label>
+											<div class="col-sm-7">
+												<input type="text" ng-model="menu.dinr_title" id="dinr_title" name="dinr_title" class="form-control" placeholder="Menu Title" required ng-maxlength="50" />
+												<div class="form-group has-error" ng-show="menuDForm.dinr_title.$dirty">
+													<label ng-show="menuDForm.dinr_title.$error.required" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> This is a required field</label>
+													<label ng-show="menuDForm.dinr_title.$error.maxlength" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Title is exied maximum length</label>
+												</div>
+											</div>
+											<div class="col-sm-1">
+												<div class="form-group has-success" ng-show="menuDForm.dinr_title.$valid">
+													<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="menu-dinr-subtitle" class="col-sm-4 control-label">Sub Title&nbsp;<font color="red">*</font>
+											</label>
+											<div class="col-sm-7">
+												<input type="text" ng-model="menu.dinr_subtitle" id="dinr_subtitle" name="dinr_subtitle" class="form-control" placeholder="Menu Sub Title" required ng-maxlength="70" />
+												<div class="form-group has-error" ng-show="menuDForm.dinr_subtitle.$dirty">
+													<label ng-show="menuDForm.dinr_subtitle.$error.required" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> This is a required field</label>
+													<label ng-show="menuDForm.dinr_subtitle.$error.maxlength" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> SubTitle is exied maximum length</label>
+												</div>
+											</div>
+											<div class="col-sm-1">
+												<div class="form-group has-success" ng-show="menuDForm.dinr_subtitle.$valid">
+													<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="menu-dinr-Description" class="col-sm-4 control-label">Menu Description&nbsp;<font color="red">*</font>
+											</label>
+											<div class="col-sm-7">
+												<textarea type="textarea" ng-model="menu.dinr_description" id="dinr_description" name="dinr_description" class="form-control" rows="5" placeholder="Menu Description" required />
+												<div class="form-group has-error" ng-show="menuDForm.dinr_description.$dirty"> 
+													<label ng-show="menuDForm.dinr_description.$error.required" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> This is a required field</label>
+												</div>
+											</div>
+											<div class="col-sm-1">
+												<div class="form-group has-success" ng-show="menuDForm.dinr_description.$valid">
+													<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="menu-dinr-Price" class="col-sm-4 control-label">Price&nbsp;<font color="red">*</font></label>
+											<div class="col-sm-7">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa fa-inr"></i></span>
+													<input type="number" ng-model="menu.dinr_price" id="dinr_price" name="dinr_price" class="form-control" required>
+												</div>
+												<div class="form-group has-error" ng-show="menuDForm.dinr_price.$dirty">
+													<label ng-show="menuDForm.dinr_price.$error.required" class="control-label" for="inputError"><i	class="fa fa-times-circle-o"></i> This is a required field</label>
+												</div>
+											</div>
+											<div class="col-sm-1">
+												<div class="form-group has-success" ng-show="menuDForm.dinr_price.$valid">
+													<label class="control-label" for="inputSuccess"><i class="fa fa-check-circle-o"></i></label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="menu-luch-image" class="col-sm-4 control-label">Upload Image</label>
+											<div class="col-sm-8">
+												<button type="submit" ng-model="menu.dinr_image" id="dinr_image" name="dinr_image" ng-init="menu.dinr_image='N/A'" class="btn btn-default btn-sm" 	data-toggle="modal" data-target=".bs-example-modal-sm">
+													<i class="fa fa-camera-retro"></i>&nbsp;Upload
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="box-footer">
+									<button type="button" ng-click="dinr_reset()" class="btn btn-default pull-left" ng-disabled="menuDForm.$pristine">Reset</button>
+									<input type="submit" value="{{!menu.dinr_id ? 'Save' : 'Update'}}" class="btn btn-success pull-right" ng-disabled="menuDForm.$invalid" />
+								</div>
+                			</form>	
+						</div>
+						<div id="mydiv2">
+						    <img src="./resources/assets/image/ajax-loader.gif" class="ajax-loader"/>
+						</div>
+					  </div><!-- /.tab-pane -->
+	                  <!-- *********************** Tab Layout / End **************** -->
+	                </div><!-- /.tab-content -->
+			</div><!-- nav-tabs-custom -->
+			
+			<!-- *********************** MODULE 1 for image can not upload **************** -->
+			<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+				<div class="modal-dialog modal-sm" role="document">
+					<div class="modal-content">
+						<div class="modal-body">
+							<div class="form-group">
+								<p for="message-text" class="control-label">
+									<i class="fa-file-image-o"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+									Image feature is currently disabled, contact 'admin' for detail.</p>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	$(function() {
+		$("#date").inputmask();
+		$("#bfst_price").inputmask();
+		$("#luch_price").inputmask();
+		$("#dinr_price").inputmask();
+	});
+</script>

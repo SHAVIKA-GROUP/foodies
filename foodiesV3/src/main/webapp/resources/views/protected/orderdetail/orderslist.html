@@ -1,0 +1,175 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>
+		Order List&nbsp;&nbsp;&nbsp;<small>Shows placed order detail</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><i class="fa fa-th"></i> Home</li>
+		<li><i class="fa fa-user"></i> Order Detail</li>
+	</ol>
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+
+	<!-- =========================================================== -->
+
+	<div class="row" ng-controller="ordersListCtrl">
+		<div class="col-xs-12">
+			<div class="box box-info">
+			<!-- 
+				<div class="box-header">
+					<div class="form-group">
+						<div class="col-sm-7">&nbsp;</div>
+						<div class="col-sm-4">
+							<div class="input-group pull-right">
+								<div class="input-group-addon">
+									<i class="fa fa-filter"></i>
+								</div>
+								<select class="form-control select2" style="width: 100%;">
+									<option value="1" selected="selected">--- All ---</option>
+									<option value="2">Placed Orders</option>
+									<option value="3">Oder Confirmed</option>
+									<option value="4">Rejected Orders</option>
+									<option value="5">Next Day Orders</option>
+									<option value="6">Delivered Orders</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-1">
+							<button type="button" class="btn btn-info pull-right" ng-click="goFilterOrdre()">Go</button>
+						</div>
+					</div>
+				</div>
+				-->
+				<div class="box-body">
+					<table id="example1" datatable="ng" dt-options="dtOptions" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th align="center">#</th>
+								<th align="center">Order ID</th>
+								<th align="center">CustomerName</th>
+								<th align="center">Address</th>
+								<th align="center">Phone</th>
+								<th align="center">Price</th>
+								<th align="center">Status</th>
+							</tr>
+						</thead>
+						<tbody ng-hide="loading">
+							<tr data-ng-repeat="order in orders">
+								<td>{{$index + 1}}</td>
+								<td><i>{{order.orders.order_item_id}}</i></td>
+								<td>{{order.customer.first_name}} {{order.customer.last_name}}</td>
+								<td width='30%'>{{order.customer.address_1}}, {{order.customer.address_2}}, {{order.customer.street}}
+								, {{order.customer.land_mark}}. {{order.customer.city}} - {{order.customer.pincode}}
+								</td>
+								<td>{{order.customer.phone}}</td>
+								<td><i class="fa fa-inr"></i>&nbsp;{{order.orders.total_value}}</td>
+								<td align="center"> 
+									<a ng-click="viewConfig(order)" ng-class="getStatusColor(order.orders.order_status)" data-toggle='modal' data-target='#configModal'>&nbsp;&nbsp;&nbsp;{{getStatusText(order.orders.order_status)}}&nbsp;&nbsp;&nbsp;</a>
+									<br/>
+									<i class="btn fa fa-list-alt" ng-click="viewItem(order)" title="View Menu" data-toggle="modal" data-target="#menuModal"></i>
+								</td>
+							</tr>
+						</tbody>
+						<div class="overlay" ng-show="loading">
+							<tr ng-show="loading">
+								<td colspan="7" align="center"><i class="fa fa-refresh fa-spin"></i>&nbsp;&nbsp;Loading...</td>
+							</tr>
+						</div>
+					</table>
+				</div>
+				
+					<!-- *********************** MODULE 1 for menu detail view **************** -->
+					<div class="modal fade" id="menuModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+							   <div class="modal-header">
+			       					<h4 class="modal-title" id="exampleModalLabel">Menu Items</h4>
+			     			   </div>
+							
+							   <div class="modal-body">
+							        <div class="row">
+					                 	 <div class='scroll'> 
+								           
+								           <div class="col-lg-12 col-md-12 col-xs-12"  ng-repeat="menu in menus">
+								             <div class="box box-success">
+								               
+								               <div class="box-header with-border">
+								                 <div class="box-tools pull-left">
+								                   <button class="btn btn-box-tool" data-widget="collapse"><i ng-class="getMenyTypeIcon(menu.menutypeid)"></i></button>
+								                 </div><!-- /.box-tools -->
+								                 <h3 class="box-title">{{getMenyType(menu.menutypeid)}} : {{menu.title}}</h3>
+								               </div><!-- /.box-header -->
+								               
+								               <div class="box-body with-border">
+								                 <i>{{menu.subtitle}}</i>
+								                 <p>{{menu.description}}</p> 
+								               </div><!-- /.box-body -->
+   								               <div class="box-footer with-border pull-left">
+								                 <h4>Quantity : <b>{{getQuantity(menu.id)}}</b></h4>
+								               </div>
+								               <div class="box-footer with-border pull-right">
+								                 <h4>Price : <b><i class="fa fa-inr"></i>&nbsp;&nbsp;{{menu.price}}</b></h4>
+								               </div>
+								             </div><!-- /.box -->
+								           </div><!-- /.col -->
+								           
+					                 	 </div>	
+									</div>
+								</div>
+								<div class="modal-footer">
+		       					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		     					</div>
+							</div>
+						</div>
+					</div>
+						<!-- *********************** MODULE 2 for Order Configuration **************** -->
+						<div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+								<input type="hidden" name="model_order_id" ng-model="model_order_id" ng-value="{{model_order_id}}" />
+								<input type="hidden" name="model_order_status" ng-model="model_order_status" ng-value="{{model_order_status}}" />
+									<div class="modal-header" align="left">
+										<h4 class="modal-title" id="myModalLabel">Order Status</h4>
+									</div>
+									<div class="modal-body">
+									<input type="hidden" id="order-status-submit-id" name="order-status-submit-id" value="1" />
+										<div class="form-group">
+											<div class="col-md-12">
+												<p>
+												<h4 id='order-status-submit'>Click Submit for <b>" {{getModuleConfigStatus()}} " </b>the Order <i>{{model_order_id}}</i>...</h4>
+												</p>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button class="btn btn-success" id="order_status_submit_btn" ng-click="order_status_submit()" name="forgot-pwd-submit" type="submit" ng-disabled="isDisabled" >Submit</button>
+										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									</div>
+								</div>
+							</div>
+						<div id="mydivloader">
+							    <img src="./resources/assets/image/ajax-loader.gif" class="ajax-loader"/>
+						</div>
+						</div>
+					
+			</div>
+		</div>
+	</div>
+	<!-- =========================================================== -->
+</section>
+<script>
+	$(function() {
+		$("#example1").DataTable();
+		$('#example2').DataTable({
+			"paging" : true,
+			"lengthChange" : true,
+			"searching" : true,
+			"ordering" : true,
+			"info" : true,
+			"autoWidth" : false
+		});
+	});
+</script>
