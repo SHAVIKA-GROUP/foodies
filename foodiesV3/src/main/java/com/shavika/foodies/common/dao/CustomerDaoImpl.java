@@ -16,4 +16,9 @@ public class CustomerDaoImpl extends BaseDaoImpl<Customer> implements CustomerDa
 		return getSession().getNamedQuery(GET_CUSTOMER_BY_CUSTID).setLong(0, customer.getCustomer_item_id()).list();
 	}
 
+	@Override
+	public List<Customer> getCustomerByPhone(Customer customer) throws ShavikaAppException {
+		return getSession().getNamedQuery(GET_CUSTOMER_BY_PHONE).setString(0, customer.getPhone().trim()).list();
+	}
+
 }

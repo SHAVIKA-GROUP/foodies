@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -18,13 +20,15 @@ import com.shavika.foodies.common.utilities.DateTimeUtil;
 @Entity
 @Table(name = "CUSTOMER")
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-@NamedQueries({ @NamedQuery(name = CustomerDao.GET_CUSTOMER_BY_CUSTID, query = " from Customer c where c.customer_item_id = ?  and is_deleted = 0") })
+@NamedQueries({ @NamedQuery(name = CustomerDao.GET_CUSTOMER_BY_CUSTID, query = " from Customer c where c.customer_item_id = ?  and is_deleted = 0") ,
+		 @NamedQuery(name = CustomerDao.GET_CUSTOMER_BY_PHONE, query = " from Customer c where c.phone = ?  and is_deleted = 0") })
 public class Customer implements Serializable{
 
 	private static final long serialVersionUID = -3599277885711171526L;
 
 	@Id
 	//@GeneratedValue
+	//@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "ID")
 	private long id;
 	

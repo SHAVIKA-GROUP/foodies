@@ -1,8 +1,13 @@
 package com.shavika.foodies.common.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +35,8 @@ import com.shavika.foodies.common.service.CustomerService;
 import com.shavika.foodies.common.service.MenuService;
 import com.shavika.foodies.common.service.OrderItemsService;
 import com.shavika.foodies.common.service.OrdersService;
+import com.shavika.foodies.common.utilities.Constants;
+import com.shavika.foodies.common.utilities.ImageProcess;
 
 @RestController
 @RequestMapping(value = "/rService")
@@ -52,19 +59,24 @@ public class restServiceController {
 	@RequestMapping(value = "/syncdata", method = RequestMethod.POST)
 	public ResponseEntity<String> syncData(@RequestParam("CUSTOMER") String customer,
 			@RequestParam("ORDERPLACED") String placedOrders, @RequestParam("ORDERITEMPLACED") String placedOrderItem,
-			@RequestParam("ORDERSYNC") String syncOrders, @RequestParam("MENUSYNC") String syncMenus)
-			throws ShavikaAppException {
+			@RequestParam("ORDERSYNC") String syncOrders, @RequestParam("MENUSYNC") String syncMenus,
+			HttpServletRequest request) throws ShavikaAppException {
 		String returnsyncOrders = null;
 		try {
+			String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+
 			Customer customerObj = syncCustomerData(customer);
 			syncOrderData(placedOrders);
 			syncOrderItemData(placedOrderItem);
 			syncOrderSyncData(syncOrders);
-			ClientSyncData syncOrderList = getAllsyncData(customerObj, syncMenus);
+
+			System.out.println("rootDirectory==================>"+rootDirectory);
+			ClientSyncData syncOrderList = getAllsyncData(customerObj, syncMenus, rootDirectory);
 			returnsyncOrders = new Gson().toJson(syncOrderList);
+			returnsyncOrders = (returnsyncOrders.length() == 0) ? "N/A" : returnsyncOrders;
 			System.out.println("-----------------------------------------------------");
 			System.out.println("CUSTOMER	==>" + customerObj.getCustomer_item_id());
-			System.out.println("RESULT		==>" + syncOrderList);
+			//System.out.println("RESULT		==>" + returnsyncOrders);
 			System.out.println("-----------------------------------------------------");
 		} catch (JsonParseException e) {
 			LOGGER.error("restServiceController/syncData", e);
@@ -115,16 +127,51 @@ public class restServiceController {
 		System.out.println("ORDERSYNC=>" + syncOrder);
 	}
 
-	private ClientSyncData getAllsyncData(Customer customerObj, String syncMenus) throws ShavikaAppException {
+	private ClientSyncData getAllsyncData(Customer customerObj, String syncMenus, String rootDirectory)
+			throws ShavikaAppException {
+		ClientSyncData clientSyncData = new ClientSyncData();
+
+		/******************** SyncOrders ******************************/
 		List<SyncOrder> syncOrder = ordersService.getAllSyncData(customerObj);
+		clientSyncData.setSyncorder(syncOrder);
+
+		/******************** Menu Sync ******************************/
 		List<Menus> menusList = new ArrayList<Menus>();
 		String _syncMenus = syncMenus;
+		// System.out.println("Menus_uniqueid=====>"+_syncMenus);
 		if (null != _syncMenus || _syncMenus.length() > 0) {
 			String[] syncMneusArry = _syncMenus.split("@");
 			for (String uniqueid : syncMneusArry) {
+				if (uniqueid.length() == 0)
+					continue;
 				menusList.addAll(menuService.getMenuByUniqueId(Long.valueOf(uniqueid)));
 			}
 		}
-		return new ClientSyncData(syncOrder, menusList);
+		clientSyncData.setMenus(menusList);
+
+		/******************** Menu Image Sync ******************************/
+		List<Map<String, byte[]>> menusImage = new ArrayList<Map<String, byte[]>>();
+		if (null != menusList || menusList.size() > 0) {
+			for (Menus menus : menusList) {
+				Map<String, byte[]> singleimageMap = new HashMap<String, byte[]>();
+				long uniqueid = menus.getUnique_id();
+				String menuImage = (menus.getMenutypeid() == 1) ? "" + uniqueid + Constants.IMG_FILE_SUFFIX_BREAKFAST
+						: ((menus.getMenutypeid() == 2) ? "" + uniqueid + Constants.IMG_FILE_SUFFIX_LUNCH
+								: "" + uniqueid + Constants.IMG_FILE_SUFFIX_DINNER);
+				String filename = Constants.getImageFileByname1(menuImage, rootDirectory);
+				if(filename.equals(Constants.NOT_APPLICABLE)) continue;
+				byte[] imagearray = ImageProcess.image2bytearray(filename);
+				filename = new File(filename).getName();
+				System.out.println("filename==============>" + filename);
+				singleimageMap.put(filename, imagearray);
+				menusImage.add(singleimageMap);
+			}
+		}
+		System.out.println("menusList==============>" + menusList.toString());
+		System.out.println("syncOrder==============>" + syncOrder);
+		System.out.println("menusImage==============>" + menusImage.size());
+		clientSyncData.setMenusImage(menusImage);
+
+		return clientSyncData;
 	}
 }

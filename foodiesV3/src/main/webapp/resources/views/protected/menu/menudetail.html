@@ -127,10 +127,12 @@
 										</div>
 										<div class="form-group">
 											<label for="menu-bfst-image" class="col-sm-4 control-label">Upload Image</label>
-											<div class="col-sm-8">
-												<button type="submit" ng-model="menu.bfst_image" id="bfst_image" name="bfst_image" ng-init="menu.bfst_image='N/A'" class="btn btn-default btn-sm" 	data-toggle="modal" data-target=".bs-example-modal-sm">
+											<div class="col-sm-6">
+												<button type="button" ng-model="menu.bfst_image" id="bfst_image" name="bfst_image" ng-init="menu.bfst_image='N/A'" 
+												class="btn btn-default btn-sm" 	data-toggle="modal" data-target="#bfst_model" ng-click="validateUploadForm('1')">
 													<i class="fa fa-camera-retro"></i>&nbsp;Upload
-												</button>
+												</button> 
+												&nbsp;&nbsp;&nbsp;<span><img ng-src="{{bfst_image}}" alt="image_icon.png" width="50px" height="50px" class="img-rounded"></span>
 											</div>
 										</div>
 									</div>
@@ -232,10 +234,12 @@
 										</div>
 										<div class="form-group">
 											<label for="menu-luch-image" class="col-sm-4 control-label">Upload Image</label>
-											<div class="col-sm-8">
-												<button type="submit" ng-model="menu.luch_image" id="luch_image" name="luch_image"  ng-init="menu.luch_image='N/A'" class="btn btn-default btn-sm" 	data-toggle="modal" data-target=".bs-example-modal-sm">
+											<div class="col-sm-6">
+												<button type="button" ng-model="menu.bfst_image" id="bfst_image" name="bfst_image" ng-init="menu.bfst_image='N/A'" 
+												class="btn btn-default btn-sm" 	data-toggle="modal" data-target="#luch_model" ng-click="validateUploadForm('2')">
 													<i class="fa fa-camera-retro"></i>&nbsp;Upload
-												</button>
+												</button> 
+												&nbsp;&nbsp;&nbsp;<span><img ng-src="{{luch_image}}" alt="image_icon.png" width="50px" height="50px" class="img-rounded"></span>
 											</div>
 										</div>
 									</div>
@@ -336,11 +340,13 @@
 											</div>
 										</div>
 										<div class="form-group">
-											<label for="menu-luch-image" class="col-sm-4 control-label">Upload Image</label>
-											<div class="col-sm-8">
-												<button type="submit" ng-model="menu.dinr_image" id="dinr_image" name="dinr_image" ng-init="menu.dinr_image='N/A'" class="btn btn-default btn-sm" 	data-toggle="modal" data-target=".bs-example-modal-sm">
+											<label for="menu-dinr-image" class="col-sm-4 control-label">Upload Image</label>
+											<div class="col-sm-6">
+												<button type="button" ng-model="menu.bfst_image" id="bfst_image" name="bfst_image" ng-init="menu.bfst_image='N/A'" 
+												class="btn btn-default btn-sm" 	data-toggle="modal" data-target="#dinr_model" ng-click="validateUploadForm('3')">
 													<i class="fa fa-camera-retro"></i>&nbsp;Upload
-												</button>
+												</button> 
+												&nbsp;&nbsp;&nbsp;<span><img ng-src="{{dinr_image}}" alt="image_icon.png" width="50px" height="50px" class="img-rounded"></span>
 											</div>
 										</div>
 									</div>
@@ -359,20 +365,80 @@
 	                </div><!-- /.tab-content -->
 			</div><!-- nav-tabs-custom -->
 			
-			<!-- *********************** MODULE 1 for image can not upload **************** -->
-			<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-				<div class="modal-dialog modal-sm" role="document">
+			<!-- *********************** MODULE 1 for breakfast-image **************** -->
+			<div class="modal fade bs-example-modal-sm" id="bfst_model" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+				<div class="modal-dialog modal-bg" role="document">
 					<div class="modal-content">
+	                  <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                    <h4 class="modal-title">Upload Breakfast Image</h4>
+	                  </div>
 						<div class="modal-body">
-							<div class="form-group">
-								<p for="message-text" class="control-label">
-									<i class="fa-file-image-o"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-									Image feature is currently disabled, contact 'admin' for detail.</p>
+							<div class="col-md-12 col-sm-12 col-xs-12 form-group pull-right">
+								<div class="input-group">
+									<input type="file" file-model="bfst_File" ng-model-instant onchange="angular.element(this).scope().imageUploadB(event)" 
+									class="form-control"> <span class="input-group-btn">
+										<button class="btn btn-success" type="button" data-dismiss="modal" ng-click="uploadFile('bfst')">
+											<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;OK
+										</button>
+									</span>
+								</div>
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- *********************** MODULE 2 for lunch-image **************** -->
+			<div class="modal fade bs-example-modal-sm" id="luch_model" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+				<div class="modal-dialog modal-bg" role="document">
+					<div class="modal-content">
+	                  <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                    <h4 class="modal-title">Upload Lunch Image</h4>
+	                  </div>
+						<div class="modal-body">
+							<div class="col-md-12 col-sm-12 col-xs-12 form-group pull-right">
+								<div class="input-group">
+									<input type="file" file-model="luch_File" ng-model-instant onchange="angular.element(this).scope().imageUploadL(event)" 
+									class="form-control"> <span class="input-group-btn" />
+										<button class="btn btn-success" type="button" data-dismiss="modal" ng-click="uploadFile('luch')">
+											<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;OK
+										</button>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- *********************** MODULE 3 for dinner-image **************** -->
+			<div class="modal fade bs-example-modal-sm" id="dinr_model" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+				<div class="modal-dialog modal-bg" role="document">
+					<div class="modal-content">
+	                  <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                    <h4 class="modal-title">Upload Dinner Image</h4>
+	                  </div>
+						<div class="modal-body">
+							<div class="col-md-12 col-sm-12 col-xs-12 form-group pull-right">
+								<div class="input-group">
+									<input type="file" file-model="dinr_File" ng-model-instant onchange="angular.element(this).scope().imageUploadD(event)" 
+									class="form-control"> <span class="input-group-btn" />
+										<button class="btn btn-success" type="button" data-dismiss="modal" ng-click="uploadFile('dinr')">
+											<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;OK
+										</button>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
 						</div>
 					</div>
 				</div>

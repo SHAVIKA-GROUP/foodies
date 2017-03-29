@@ -30,13 +30,39 @@ indexapp.factory('menuFactory', ['$http', function($http) {
         return $http.post(urlBase, data);
     };
     dataFactory.updateMenu = function (id, data) {
-        return $http.put(urlBase + '/' + id, data)
+        return $http.put(urlBase + '/' + id, data);
     };
     dataFactory.deleteMenu = function (id) {
         return $http.delete(urlBase + '/' + id);
     };
+    dataFactory.imageMenu = function (file, filename) {
+        var fd = new FormData();
+        fd.append('file', file);
+        fd.append('filename', ""+filename);
+        return $http.post(urlBase + '/image', fd, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        });
+    };
     return dataFactory;
 }]);
+
+indexapp.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+            console.log("=================> calling directive.");
+            element.bind('change', function(){
+                scope.$apply(function(){
+                	modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
+
 
 
 /***
@@ -81,14 +107,21 @@ indexapp.controller('ctrlMenulist', ['$scope', '$location', '$filter', 'DTOption
  * 
  * 
  */
-indexapp.controller('menuCtrl', [ '$scope', '$location', '$routeParams', '$filter', 'menuFactory', function($scope, $location, $routeParams, $filter, menuFactory) {
+indexapp.controller('menuCtrl', [ '$scope', '$location', '$routeParams', '$filter', '$window', 'menuFactory', function($scope, $location, $routeParams, $filter, $window,  menuFactory) {
 	$('#mydiv').hide();	$('#mydiv1').hide(); $('#mydiv2').hide(); $("#bfst-alert").hide(); $("#luch-alert").hide(); $("#dinr-alert").hide();
 	$scope.menu = {};
 	$scope.formatDate = '';
 	$scope.menudate = '';
+	var imagepath = './resources/assets/menuimage/';
+	//$scope.bfst_File='./resources/assets/menuimage/image_icon.png';
+	//$scope.luch_File='./resources/assets/menuimage/org_deflt_logo.png';
+	//$scope.dinr_File='./resources/assets/menuimage/user_female.png';
+	$scope.bfst_image = '';
+	$scope.luch_image = '';
+	$scope.dinr_image = ''; 
+	
 	var _uniqueId = $routeParams.id;
 	var  uniqueId = (_uniqueId === '0') ? getCurrentUniqueId($filter)  : _uniqueId;
-	//console.log("=================> calling menuCtrl /uniqueId="+uniqueId);
 	
 	/*
 	if(!uniqueId === 0) {
@@ -108,9 +141,9 @@ indexapp.controller('menuCtrl', [ '$scope', '$location', '$routeParams', '$filte
 	//$scope.formatDate = function(){ return addDays(new Date(), 3); /*new Date().addDays(2);*/ };
 	
 	$scope.go_submit = function() {
-		console.log("=================> calling go_submit...");
+		//console.log("=================> calling go_submit...");
 		uniqueId = $filter('date')($scope.menudate, 'yyyyMMdd');
-		console.log("=================> calling go_submit/uniqueId="+uniqueId);
+		//console.log("=================> calling go_submit/uniqueId="+uniqueId);
 		getMenuDetail();
 	}
 	
@@ -120,12 +153,21 @@ indexapp.controller('menuCtrl', [ '$scope', '$location', '$routeParams', '$filte
 		menuFactory.getMenu(uniqueId)
             .then(function (response) {
             	$('#mydiv').hide();	$('#mydiv1').hide(); $('#mydiv2').hide(); $("#bfst_alert_message").empty();
-            	$scope.menudate = (typeof(response.data.date)  === "undefined") ? ((typeof($scope.menudate) === "undefined") ? new Date() : $scope.menudate) : new Date(response.data.date);
-            	console.log("=================> calling menuCtrl /$scope.menudate="+response.data);
+            	//console.log("=================> calling menuCtrl /response.data.date="+response.data.date);
+            	//console.log("=================> calling menuCtrl /$scope.menudate="+$scope.menudate);
+            	$scope.menudate = (typeof(response.data.date)  === "undefined") ? ((typeof($scope.menudate) === "undefined" || $scope.menudate === '') ? new Date() : $scope.menudate) : new Date(response.data.date);
+            	//console.log("=================> calling menuCtrl /After//$scope.menudate="+$scope.menudate);
             	$scope.formatDate = setDatelable($filter, $scope.menudate); //function(){ return $scope.menudate; };
             	//$scope.menu.unique_id = function(){ return (typeof(response.data.unique_id)  === "undefined") ? getCurrentUniqueId($filter) : new Date(response.data.unique_id); };
             	//$scope.menu.date = function(){ return (typeof(response.data.date)  === "undefined") ? new Date().getTime() : new Date(response.data.date); };
                 $scope.menu = response.data;
+                
+                console.log("=================> calling $scope.menu.bfst_image==="+$scope.menu.bfst_image);
+                console.log("=================> calling $scope.menu.luch_image==="+$scope.menu.luch_image);
+                console.log("=================> calling $scope.menu.dinr_image==="+$scope.menu.dinr_image);
+            	if(null != $scope.menu.bfst_image || !$scope.menu.bfst_image === 'N/A') { $scope.bfst_image = imagepath+$scope.menu.bfst_image };
+            	if(null != $scope.menu.luch_image || !$scope.menu.luch_image === 'N/A') { $scope.luch_image = imagepath+$scope.menu.luch_image };
+            	if(null != $scope.menu.dinr_image || !$scope.menu.dinr_image === 'N/A') { $scope.dinr_image = imagepath+$scope.menu.dinr_image };
                 if(typeof(response.data.date)  === "undefined"){
                 	$('#mydiv').hide();	$('#mydiv1').hide(); $('#mydiv2').hide(); $("#bfst_alert_message").empty();
                 	$("#bfst-alert").show();
@@ -163,6 +205,7 @@ indexapp.controller('menuCtrl', [ '$scope', '$location', '$routeParams', '$filte
         	console.log("=================> calling submit/get/success.");
         	$('#mydiv').hide(); 
         	$scope.menu = response.data;
+        	if(null != $scope.menu.bfst_image || !$scope.menu.bfst_image === 'N/A') { $scope.bfst_image = imagepath+$scope.menu.bfst_image };
             $("#bfst-alert").show();
             $("#bfst-alert").addClass('col-md-5 alert alert-success').removeClass('col-md-5 alert alert-warning');
             $("#bfst_alert_message").append('<strong>Success! </strong> Record inserted/updated succesfully.');
@@ -187,6 +230,7 @@ indexapp.controller('menuCtrl', [ '$scope', '$location', '$routeParams', '$filte
         	console.log("=================> calling submit-2/get/success.");
         	$('#mydiv1').hide(); 
         	$scope.menu = response.data;
+        	if(null != $scope.menu.luch_image || !$scope.menu.luch_image === 'N/A') { $scope.luch_image = imagepath+$scope.menu.luch_image };
             $("#luch-alert").show();
             $("#luch-alert").addClass('col-md-5 alert alert-success').removeClass('col-md-5 alert alert-warning');
             $("#luch_alert_message").append('<strong>Success! </strong> Record inserted/updated succesfully.');
@@ -211,6 +255,7 @@ indexapp.controller('menuCtrl', [ '$scope', '$location', '$routeParams', '$filte
         	console.log("=================> calling submit-3/get/success.");
         	$('#mydiv2').hide(); 
         	$scope.menu = response.data;
+        	if(null != $scope.menu.dinr_image || !$scope.menu.dinr_image === 'N/A') { $scope.dinr_image = imagepath+$scope.menu.dinr_image };
             $("#dinr-alert").show();
             $("#dinr-alert").addClass('col-md-5 alert alert-success').removeClass('col-md-5 alert alert-warning');
             $("#dinr_alert_message").append('<strong>Success! </strong> Record inserted/updated succesfully.');
@@ -235,6 +280,50 @@ indexapp.controller('menuCtrl', [ '$scope', '$location', '$routeParams', '$filte
 		 $scope.menudate = date; 
 	});
 	
+	
+	$scope.validateUploadForm = function(type){
+		if(type == 1 && !$scope.menuBForm.$valid) { $window.alert("Warning \n Please Fill the form before upload image..."); }
+		else if(type == 2 && !$scope.menuLForm.$valid) { $window.alert("Warning \n Please Fill the form before upload image..."); }
+		else if(type == 3 && !$scope.menuDForm.$valid) { $window.alert("Warning \n Please Fill the form before upload image..."); }
+	}
+	
+	/********************* image process ******************************/
+	$scope.uploadFile = function(type){
+        var file = (type === 'bfst') ? $scope.bfst_File : ((type === 'luch') ? $scope.luch_File : $scope.dinr_File);
+        var uniqueid = $filter('date')($scope.menudate, 'yyyyMMdd');
+        var sufix = (type === 'bfst') ? 'bfst' : ((type === 'luch') ? 'luch' : 'dinr');
+        var filename = uniqueid+'_'+ sufix;
+        //console.log('---------------> file is : ');console.dir(file);
+        menuFactory.imageMenu(file, filename)
+        .then(function (response) {
+        	var _data = response.data.filename;
+        	$scope.$apply(function() {
+	        	if(type === 'bfst') $scope.bfst_image = imagepath+_data; 
+	        	else if(type === 'luch') $scope.luch_image = imagepath+_data;
+	        	else if(type === 'dinr') $scope.dinr_image = imagepath+_data;
+        	});
+        }, function(error) {
+        	console.log("=================> Image uploaded error."+error);
+        });
+    };
+    
+    $scope.imageUploadB = function (event) {
+    	var file = event.target.files[0]; var reader = new FileReader(); reader.onload = $scope.imageIsLoadedB; reader.readAsDataURL(file);
+    }
+    $scope.imageUploadL = function (event) {
+    	var file = event.target.files[0]; var reader = new FileReader(); reader.onload = $scope.imageIsLoadedL; reader.readAsDataURL(file);
+    }
+    $scope.imageUploadD = function (event) {
+    	var file = event.target.files[0]; var reader = new FileReader(); reader.onload = $scope.imageIsLoadedD; reader.readAsDataURL(file);
+    }
+    $scope.imageIsLoadedB = function (e) { $scope.$apply(function () { $scope.bfst_image = e.target.result; }); }
+    $scope.imageIsLoadedL = function (e) { $scope.$apply(function () { $scope.luch_image = e.target.result; }); }
+    $scope.imageIsLoadedD = function (e) { $scope.$apply(function () { $scope.dinr_image = e.target.result; }); }
+    
+    $scope.changeImage = function(img){
+    	console.log("=================> Image uploaded imgname=================>"+img);
+    }
+    
 }]);
 
 

@@ -1,6 +1,7 @@
 package com.shavika.foodies.common.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.shavika.foodies.api.dto.Menus;
 import com.shavika.foodies.api.dto.PojoMenuDetail;
@@ -22,12 +23,14 @@ public abstract interface MenuService {
 	
 	public abstract List<Menus> getMenuByUniqueId(long uniqueId) throws ShavikaAppException;
 	
-	public abstract Menus parseMenuByPojo(PojoMenuDetail pojoMenuDetail) throws ShavikaAppException;
+	public abstract Menus parseMenuByPojo(PojoMenuDetail pojoMenuDetail, String rootDirectory) throws ShavikaAppException;
 	
 	public abstract PojoMenuDetail parseMenuByPojo(List<Menus> menuList) throws ShavikaAppException;
 	
 	public abstract List<Menus> insertRUpdateMenu(Menus menu) throws ShavikaAppException;
 	
 	public abstract PojoMenuDetail getSyncDashboard() throws ShavikaAppException;
+	
+	public abstract List<Map<String, byte[]>> getmenuImages(String uniqueIds) throws ShavikaAppException;
 	
 }

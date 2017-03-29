@@ -122,7 +122,7 @@ public class OrdersServiceImpl implements OrdersService {
 		for(String orderstatus : Constants.ORDER_STATUS_ARRY){
 			List<Orders> ordersList = ordersDao.getCountofOrderStatus(orderstatus); 
 			System.out.println("ordersList.size="+ordersList.size());
-			float percentage = (ordersList.size()*100)/_ordersList.size();
+			float percentage = (ordersList.size() > 0) ? (ordersList.size()*100)/_ordersList.size() : 0f;
 			System.out.println("percentage="+percentage);
 			SyncDashBoard syncDashBoard = new SyncDashBoard();
 			syncDashBoard.setService(orderstatus);

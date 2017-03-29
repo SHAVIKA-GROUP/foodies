@@ -38,14 +38,50 @@ indexapp.factory('ordersFactory', ['$http', function($http) {
  * 
  */
 //indexapp.controller('ordersListCtrl', ['$scope', '$window', '$location', '$http', 'DTOptionsBuilder', 'ordersFactory', function($scope, $window, $location, $http, DTOptionsBuilder, ordersFactory) {
-indexapp.controller('ordersListCtrl', function($scope, $window, $location, $http, DTOptionsBuilder) {
+indexapp.controller('ordersListCtrl', function($scope, $window, $location, $http, $filter, DTOptionsBuilder) {
 	var ordersList = './ordersService';
 	$scope.orderitems = {};
+	$scope.bfst_qnty = '';
+	$scope.luch_qnty = '';
+	$scope.dinr_qnty = '';
+	$scope._orderid = '';
+	
+	
+	/*********/
+	$scope.getFormatedDate = function(millisec) {
+		return $filter('date')(new Date(millisec), 'dd/MM/yyyy hh:mm a');
+	};
+
 	
 	/*********/
 	$scope.viewItem = function(order) {
+		$scope._orderid = order.orders.order_item_id;
 		$scope.orderitems = order.orderitems;
 		$scope.menus = order.menus;
+		//console.log(foodid + ": " + value.food_id + ": " + value.quantity);
+		angular.forEach($scope.orderitems, function (value, key) {
+			var foodid = value.food_id;
+			var _quantity = value.quantity;
+			//if(foodid === value.food_id){ return value.quantity; }
+			angular.forEach(order.menus, function (value1, key1) {
+				if(foodid === value1.id){ 
+					//return value.quantity;
+					if(value1.menutypeid == 1) { $scope.bfst_qnty = _quantity; }
+					else if(value1.menutypeid == 2) { $scope.luch_qnty = _quantity; }
+					else if(value1.menutypeid == 3) { $scope.dinr_qnty = _quantity; }
+				}
+			});
+			
+		});
+	}
+
+	/*********/
+	$scope.getQuantity = function(menutypeid) {
+		//console.log("menutypeid in getQuantity==>"+menutypeid);
+		if(menutypeid == 1) { return $scope.bfst_qnty; }
+		else if(menutypeid == 2) { return $scope.luch_qnty; }
+		else if(menutypeid == 3) { return $scope.dinr_qnty; }
+		else return '-';
 	}
 
 	
@@ -72,19 +108,6 @@ indexapp.controller('ordersListCtrl', function($scope, $window, $location, $http
 		return _status;
 	}
 	
-	/*********/
-	$scope.getQuantity = function(foodid) {
-		angular.forEach($scope.orderitems, function (value, key) {
-			//console.log(foodid + ": " + value.food_id + ": " + value.quantity);
-			if(foodid === value.food_id){
-				//console.log('----------- ID selected ---------------'+value.quantity+":"+value.order_item_id);
-				return value.quantity;
-			}
-			//console.log(key + ": " + value.order_item_id + ": " + value.food_id + ": " + value.quantity);
-		}); 
-		//console.log('----------- ID END ---------------');
-		return '-';
-	}
 	/*********/
 	$scope.getMenyType = function(menutype) {
 		if(menutype === 1){ return "BreakFast" }
@@ -115,7 +138,7 @@ indexapp.controller('ordersListCtrl', function($scope, $window, $location, $http
 		else if(status === 'INIT'){ return "Initiated" }
 		else if(status === 'CNFD'){ return "Confirmed" }
 		else if(status === 'DLRD'){ return "Delivered" }
-		else if(status === 'RCVD'){ return "Rejected" }
+		else if(status === 'RCVD'){ return "Received" }
 		else if(status === 'CNLD'){ return "Canceled" }
 		else if(status === 'RJKD'){ return "Rejected" }
 		else return '---'

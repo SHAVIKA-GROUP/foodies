@@ -9,7 +9,11 @@ import com.shavika.foodies.api.exception.ShavikaAppException;
 public abstract interface CustomerDao extends BaseDao<Customer> {
 	
 	public static final String GET_CUSTOMER_BY_CUSTID = "getCustomerByCustID";
+	
+	public static final String GET_CUSTOMER_BY_PHONE = "getCustomerByPhoneno";
 
-	public abstract List<Customer> getCustomerByCustid(Customer customerList) throws ShavikaAppException;
+	public abstract List<Customer> getCustomerByCustid(Customer customer) throws ShavikaAppException;
+	
+	public abstract List<Customer> getCustomerByPhone(Customer customer) throws ShavikaAppException;
 	
 }

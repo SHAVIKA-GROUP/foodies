@@ -17,7 +17,7 @@ import com.shavika.foodies.common.utilities.Constants;
 import com.shavika.foodies.common.utilities.DateTimeUtil;
 
 
-@NamedQueries({ @NamedQuery(name = OrdersDao.GET_ORDERS_WITHOUT_RECEIVED , query = " from Orders O where O.order_status not in ( '"+Constants.ORDER_RECEIVED+"' ) "),
+@NamedQueries({ @NamedQuery(name = OrdersDao.GET_ORDERS_WITHOUT_RECEIVED , query = " from Orders O where O.order_status not in ( '"+Constants.ORDER_RECEIVED+"' ) order by O.created_on desc"),
 	@NamedQuery(name = OrdersDao.GET_ORDERS_BY_ITEMID, query = " from Orders O where O.order_item_id = ? "),
 	@NamedQuery(name = OrdersDao.GET_ORDERS_BY_CUSTOMER, query = " from Orders O where O.customer_item_id = ? "),
 @NamedQuery(name = OrdersDao.GET_ORDERS_SYNC_ORDERS, query = " from Orders O where O.order_status = ? ")})

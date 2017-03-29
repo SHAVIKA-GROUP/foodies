@@ -13,6 +13,7 @@ import com.shavika.foodies.api.dto.SyncDashBoard;
 import com.shavika.foodies.api.exception.ShavikaAppException;
 import com.shavika.foodies.common.dao.CustomerDao;
 import com.shavika.foodies.common.utilities.Constants;
+import com.shavika.foodies.common.utilities.DateTimeUtil;
 
 @Service("customerService")
 public class CustomerServiceImpl implements CustomerService {
@@ -26,9 +27,12 @@ public class CustomerServiceImpl implements CustomerService {
 	public Customer saveOrUpdate(Customer customer) throws ShavikaAppException {
 		List<Customer> custList = customerDao.getCustomerByCustid(customer);
 		if (custList.size() == 0) {
+			//customer.setId(0);
 			customerDao.save(customer);
 		} else if (custList.size() > 0 && custList.get(0).getError_status().equals(Constants.CUSTOMER_REGISTRED)) {
+			customer.setId(custList.get(0).getId());
 			customer.setError_status(Constants.CUSTOMER_CONFIRMED);
+			customer.setModified_on(DateTimeUtil.getMillis());
 			customerDao.update(customer);
 		}
 		return this.getCustomer();
