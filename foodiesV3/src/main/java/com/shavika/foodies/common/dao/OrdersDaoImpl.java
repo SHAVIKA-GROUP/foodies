@@ -24,6 +24,11 @@ public class OrdersDaoImpl extends BaseDaoImpl<Orders> implements OrdersDao {
 	}
 
 	@Override
+	public List<Orders> getOrderByItemIds(List<Long> orderItemIdlist) throws ShavikaAppException {
+		return getSession().getNamedQuery(GET_ORDERS_BY_ITEMIDS).setParameter(0, orderItemIdlist).list();
+	}
+
+	@Override
 	public List<Orders> getOrderByCustomer(long customerId) throws ShavikaAppException {
 		return (List<Orders>) getSession().getNamedQuery(GET_ORDERS_BY_CUSTOMER).setLong(0, customerId).list();
 	}

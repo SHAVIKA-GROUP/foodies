@@ -45,13 +45,47 @@ indexapp.controller('ordersListCtrl', function($scope, $window, $location, $http
 	$scope.luch_qnty = '';
 	$scope.dinr_qnty = '';
 	$scope._orderid = '';
-	
+	var orderFilterSelectId = 0;
+	var checkboxes = [];
+	$scope.bulkisDisabled=true;
 	
 	/*********/
 	$scope.getFormatedDate = function(millisec) {
-		return $filter('date')(new Date(millisec), 'dd/MM/yyyy hh:mm a');
+		return $filter('date')(new Date(millisec), 'dd/MMM/yyyy');
 	};
 
+	/*********/
+	$scope.decodeMinitus = function(_minits) {
+		if(_minits >= 60){
+			return ''+convertMinsToHrsMins(_minits);
+		}else{
+			return ''+(_minits%60)+' Mins';
+		}
+	};
+
+	
+	convertMinsToHrsMins= function (minutes) {
+		  var h = Math.floor(minutes / 60);
+		  var m = minutes % 60;
+		  h = h < 10 ? '0' + h : h;
+		  m = m < 10 ? '0' + m : m;
+		  return h + ':' + m +' Hours';
+		}
+	
+	$scope.alert = function(index, event){
+		if(checkboxes.indexOf(index) < 0){
+			checkboxes.push(index);
+		}else if(checkboxes.indexOf(index) >= 0){
+			for (var i=0; i<checkboxes.length;i++) {
+			  if (checkboxes[i] === index) {
+				  checkboxes.splice(i,1); // removes the matched element
+				  i = checkboxes.length;  // break out of the loop. Not strictly necessary
+			  }
+			}
+		}
+		$scope.bulkisDisabled = (checkboxes.length > 0) ? false : true; 
+		//console.log("["+checkboxes.length+"]checkbox====>" + checkboxes.toString());
+	}
 	
 	/*********/
 	$scope.viewItem = function(order) {
@@ -91,6 +125,15 @@ indexapp.controller('ordersListCtrl', function($scope, $window, $location, $http
 		
 	}
 
+	/*********/
+	$scope.viewBulkConfig = function() {
+		console.log("=================> calling viewBulkConfig ...");
+		$('#mybulkdivloader').show();
+		$scope.isDisabled1 = false;
+		$scope.model_bulk_order_id=checkboxes.toString();
+	}
+
+	
 	/*********/
 	$scope.viewConfig = function(order) {
 		console.log("=================> calling viewConfig ...");
@@ -144,12 +187,33 @@ indexapp.controller('ordersListCtrl', function($scope, $window, $location, $http
 		else return '---'
 	};
 	
+	$scope.order_bulk_status_submit = function() {
+		var _orderid = $scope.model_bulk_order_id;
+		console.log("=================> calling order bulk submt status===>"+_orderid);
+		$('#mybulkdivloader').show();
+		$scope.isDisabled1 = true;
+		$scope.bulkisDisabled=true;
+		var confirm_reqst = $.get('./ordersBulkConfService/'+_orderid);
+		confirm_reqst.done(function(data){
+			$('#mybulkdivloader').hide();
+			 $('#bulkconfigModal').modal('hide');
+			 loadAllOrders();
+		});
+		confirm_reqst.fail(function(status, error){
+        	console.log('fail return ....');
+			$('#mybulkdivloader').hide();
+			 $('#bulkconfigModal').modal('hide');
+			 loadAllOrders();
+		});
+	};
+
 	$scope.order_status_submit = function() {
 		var _orderid = $scope.model_order_id;
 		var _status = $scope.model_order_status;
 		console.log("=================> calling order submt status===>"+_orderid+":"+_status);
 		$('#mydivloader').show();
 		$scope.isDisabled = true;
+		$scope.bulkisDisabled=true;
 		var confirm_reqst = $.get('./ordersConfService/'+_orderid);
 		confirm_reqst.done(function(data){
 			$('#mydivloader').hide();
@@ -163,14 +227,14 @@ indexapp.controller('ordersListCtrl', function($scope, $window, $location, $http
 			 loadAllOrders();
 		});
 	};
-	
+
 	loadAllOrders();
 	function loadAllOrders() {
 		// DataTables configurable options
 		$scope.dtOptions = DTOptionsBuilder.newOptions().withDisplayLength(10).withOption('autoWidth', true).withOption('info', true)
 				.withOption('paging', true).withOption('processing', true).withOption('bLengthChange', true);
 		$scope.loading = true;
-		$http.get(ordersList).success(function(data, status, headers, config) {
+		$http.get(ordersList+'/'+orderFilterSelectId).success(function(data, status, headers, config) {
 			console.log("=================> Rest response [SUCCESS] status=" + status);
 			console.log("=================> Rest response [SUCCESS] DATA=" + data);
 			$scope.loading = false;
@@ -180,4 +244,12 @@ indexapp.controller('ordersListCtrl', function($scope, $window, $location, $http
 			$scope.loading = false;
 		});
 	}
+	
+	$scope.goFilterOrder = function() {
+		orderFilterSelectId = ($scope.orderstatusfilter === undefined || $scope.orderstatusfilter === '') ? 0 : $scope.orderstatusfilter;
+		console.log("SELECT BOX/A==>"+orderFilterSelectId);
+		$scope.bulkisDisabled=true;
+		loadAllOrders();
+	}
+	
 });

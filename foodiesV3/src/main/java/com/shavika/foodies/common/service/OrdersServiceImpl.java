@@ -1,6 +1,7 @@
 package com.shavika.foodies.common.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.criteria.Order;
@@ -104,6 +105,7 @@ public class OrdersServiceImpl implements OrdersService {
 				orders.setOrder_status(Constants.ORDER_REJECTED);
 			}
 			ordersDao.update(orders);
+			
 			List<OrderItem> _orderItems = orderItemsDao.getOrdeItemsByOrderId(orderItemId);
 			List<OrderItem> _orderItemsUpd = new ArrayList<OrderItem>();
 			for (OrderItem _orderItem : _orderItems) {
@@ -112,6 +114,36 @@ public class OrdersServiceImpl implements OrdersService {
 			}
 			orderItemsDao.updateAll(_orderItemsUpd);
 		}
+	}
+
+	@Override
+	public void updateStatusbyUI(String orderItemIds) throws ShavikaAppException {
+		List<String> orderItemIdlist = new ArrayList<String>(Arrays.asList(orderItemIds.split(",")));
+		for(String _orderItemIds : orderItemIdlist){
+			long orderItemId = Long.parseLong(_orderItemIds);
+			List<Orders> orderlist = ordersDao.getOrderByItemId(orderItemId);
+			if (orderlist.size() > 0) {
+				Orders orders = orderlist.get(0);
+				if(orders.getOrder_status().equals(Constants.ORDER_PLACED) || orders.getOrder_status().equals(Constants.ORDER_INISIATED)){
+					orders.setOrder_status(Constants.ORDER_CONFIRMED);
+				}else if(orders.getOrder_status().equals(Constants.ORDER_CONFIRMED)){
+					orders.setOrder_status(Constants.ORDER_DELIVERED);
+				}else if(orders.getOrder_status().equals(Constants.ORDER_DELIVERED)){
+					orders.setOrder_status(Constants.ORDER_RECEIVED);
+				}else{	
+					orders.setOrder_status(Constants.ORDER_REJECTED);
+				}
+				ordersDao.update(orders);
+				
+				List<OrderItem> _orderItems = orderItemsDao.getOrdeItemsByOrderId(orderItemId);
+				List<OrderItem> _orderItemsUpd = new ArrayList<OrderItem>();
+				for (OrderItem _orderItem : _orderItems) {
+					_orderItem.setStatus(orders.getOrder_status());
+					_orderItemsUpd.add(_orderItem);
+				}
+				orderItemsDao.updateAll(_orderItemsUpd);
+			}
+		}// for loop-1
 	}
 
 	@Override
@@ -132,5 +164,10 @@ public class OrdersServiceImpl implements OrdersService {
 			objects.add(syncDashBoard);
 		}
 		return objects;
+	}
+
+	@Override
+	public List<Orders> getOrdersByStatus(String status) throws ShavikaAppException {
+		return ordersDao.getCountofOrderStatus(status); 
 	}
 }

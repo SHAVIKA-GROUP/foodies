@@ -16,7 +16,7 @@
 	<!-- =========================================================== -->
 
 	<div class="row" ng-controller="customersListCtrl">
-		<div class="col-xs-12">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<div class="box box-info">
 				<!-- 
 				<div class="box-header">
@@ -59,6 +59,7 @@
 						</thead>
 						<tbody ng-hide="loading">
 							<tr ng-repeat="customer in customers">
+								{{customer | json}}
 								<td>{{$index + 1}}</td>
 								<td>{{customer.customer_item_id}}</td>
 								<td>{{customer.first_name}} {{customer.last_name}}</td>

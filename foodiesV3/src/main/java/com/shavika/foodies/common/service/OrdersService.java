@@ -17,9 +17,13 @@ public interface OrdersService {
 
 	public abstract List<Orders> getOrdersByStatus() throws ShavikaAppException;
 	
+	public abstract List<Orders> getOrdersByStatus(String status) throws ShavikaAppException;
+	
 	public abstract void updateStatus(List<SyncOrder> syncOrderList) throws ShavikaAppException;
 	
 	public abstract void updateStatusbyUI(long orderItemId) throws ShavikaAppException;
+	
+	public abstract void updateStatusbyUI(String orderItemIds) throws ShavikaAppException;
 	
 	public abstract List<SyncOrder> getAllSyncData(Customer customerObj) throws ShavikaAppException;
 	

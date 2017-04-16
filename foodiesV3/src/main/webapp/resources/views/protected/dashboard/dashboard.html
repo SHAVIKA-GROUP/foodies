@@ -12,10 +12,10 @@
 <!-- Main content -->
 <section class="content">
 	<div class="row" ng-controller="dashboardctrlOne">
-	<div class="col-md-12 col-sm-12 col-xs-12">
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		<!-- =========================================================== -->
 		<div class="row">
-			<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="info-box">
 					<span class="info-box-icon"><img
 						src="./resources/assets/ico/ic_launcher.jpg" class="img-rounded"
@@ -35,7 +35,7 @@
 		<!-- =========================================================== -->
 
 		<div class="row">
-			<div class="col-md-3 col-sm-6 col-xs-12">
+			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
 				<div class="info-box bg-aqua">
 					<span class="info-box-icon"><i class="fa fa-neuter"></i></span>
 					<div class="info-box-content">
@@ -51,7 +51,7 @@
 				<!-- /.info-box -->
 			</div>
 			<!-- /.col -->
-			<div class="col-md-3 col-sm-6 col-xs-12">
+			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
 				<div class="info-box bg-yellow">
 					<span class="info-box-icon"><i class="fa fa-transgender"></i></span>
 					<div class="info-box-content">
@@ -67,7 +67,7 @@
 				<!-- /.info-box -->
 			</div>
 			<!-- /.col -->
-			<div class="col-md-3 col-sm-6 col-xs-12">
+			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
 				<div class="info-box bg-red">
 					<span class="info-box-icon"><i class="fa fa-times"></i></span>
 					<div class="info-box-content">
@@ -83,7 +83,7 @@
 				<!-- /.info-box -->
 			</div>
 			<!-- /.col -->
-			<div class="col-md-3 col-sm-6 col-xs-12">
+			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
 				<div class="info-box bg-green">
 					<span class="info-box-icon"><i class="fa fa-check"></i></span>
 					<div class="info-box-content">
@@ -105,7 +105,7 @@
 		<!-- =========================================================== -->
 		<!-- Small boxes (Stat box) -->
 		<div class="row">
-			<div class="col-lg-6 col-xs-6" ng-repeat="menu in menulist">
+			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-repeat="menu in menulist">
 				<!-- small box -->
 				<div ng-class="checksunday(menu.date)" > <!-- class="small-box bg-aqua" -->
 				  <span class="small-box-footer"><h4><i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp;&nbsp;{{getFormatedDate(menu.date)}}</h4> </span>
@@ -127,7 +127,7 @@
 				</div>
 			</div>
 			<!-- ./col -->
-			<div class="col-lg-6 col-xs-6">
+			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 				<!-- small box -->
 				<div class="small-box bg-yellow">
 					<div class="inner">
@@ -145,7 +145,56 @@
 			</div>
 			<!-- ./col -->
 		</div>
-		<!-- /.row -->
+		<!-- =========================================================== -->
+		<!-- Small boxes (Stat box) -->
+		<div class="row">
+		   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-repeat="menublock in menublocklist">
+              <div ng-class="menublockstatus(1, menublock.size)">
+                <div class="box-header with-border">
+                  <h3 class="box-title">{{(menublock.size === 1) ? "Enabled" : "Disabled"}}</h3>
+                </div>
+                <div class="box-body">
+                	<b><i>Current status of menu blocking to user to place the order....  </i></b> <br/>
+                </div><!-- /.box-body -->
+				<div class="modal-footer">
+					<button type="button" ng-class="menublockstatus(2, menublock.size)" ng-click="menu_status_access_btn()" 
+					name="forgot-pwd-submit" data-toggle='modal' data-target='#enableModal'>{{(menublock.size === 1) ? "Disabled" : "Enabled"}}</button>
+				</div>
+              </div><!-- /.box -->
+            </div><!-- /.col -->
 		</div>
+		<!-- /.row -->
+	  </div>	
+		<!-- *********************** MODULE 1 for Menu enable / disable **************** -->
+		<div class="modal fade" id="enableModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header" align="left">
+						<h4 class="modal-title" id="myModalLabel">Menu access config status</h4>
+					</div>
+					<div class="modal-body">
+					<input type="hidden" id="order-status-submit-id" name="order-status-submit-id" value="1" />
+						<div class="form-group">
+							<div class="col-md-12">
+								<p>
+								<h4 id='order-status-submit'><b>{{model_menu_status}}</b></h4>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<!-- <button class="btn btn-success" id="menu_status_access_btn" ng-click="menu_block_status()" name="forgot-pwd-submit" type="button" ng-disabled="isDisabled">Submit</button>  -->
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+			<div id="enabledivloader">
+				    <img src="./resources/assets/image/ajax-loader.gif" class="ajax-loader"/>
+			</div>
+		</div>
+		
+		
+		
+		
 	</div>
 </section>

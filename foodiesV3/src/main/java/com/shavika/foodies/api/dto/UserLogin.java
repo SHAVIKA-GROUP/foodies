@@ -27,7 +27,7 @@ public class UserLogin implements Serializable {
 	private static final long serialVersionUID = 7837303325516366834L;
 
 	@Id
-	@GeneratedValue
+	//@GeneratedValue
 	@Column(name = "USER_LOGIN_ID")
 	private long id;
 

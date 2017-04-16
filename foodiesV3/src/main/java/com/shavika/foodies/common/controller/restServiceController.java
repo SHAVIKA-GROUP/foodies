@@ -29,10 +29,12 @@ import com.shavika.foodies.api.dto.Customer;
 import com.shavika.foodies.api.dto.Menus;
 import com.shavika.foodies.api.dto.OrderItem;
 import com.shavika.foodies.api.dto.Orders;
+import com.shavika.foodies.api.dto.Props;
 import com.shavika.foodies.api.dto.SyncOrder;
 import com.shavika.foodies.api.exception.ShavikaAppException;
 import com.shavika.foodies.common.service.CustomerService;
-import com.shavika.foodies.common.service.MenuService;
+import com.shavika.foodies.common.service.MenuService; 
+import com.shavika.foodies.common.service.PropsService;
 import com.shavika.foodies.common.service.OrderItemsService;
 import com.shavika.foodies.common.service.OrdersService;
 import com.shavika.foodies.common.utilities.Constants;
@@ -55,6 +57,9 @@ public class restServiceController {
 
 	@Autowired
 	MenuService menuService;
+
+	@Autowired
+	PropsService PropsService;
 
 	@RequestMapping(value = "/syncdata", method = RequestMethod.POST)
 	public ResponseEntity<String> syncData(@RequestParam("CUSTOMER") String customer,
@@ -167,9 +172,15 @@ public class restServiceController {
 				menusImage.add(singleimageMap);
 			}
 		}
+		
+		/******************** properities Sync ******************************/
+		List<Props> propsList = PropsService.getAllProperties();
+		clientSyncData.setProps(propsList);
+		
 		System.out.println("menusList==============>" + menusList.toString());
 		System.out.println("syncOrder==============>" + syncOrder);
 		System.out.println("menusImage==============>" + menusImage.size());
+		System.out.println("propsList==============>" + propsList.size());
 		clientSyncData.setMenusImage(menusImage);
 
 		return clientSyncData;

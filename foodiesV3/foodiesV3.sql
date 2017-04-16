@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `customer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer` (
-  `ID` bigint(20) NOT NULL,
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `ADDRESS_1` varchar(70) DEFAULT NULL,
   `ADDRESS_2` varchar(70) DEFAULT NULL,
   `CITY` varchar(30) DEFAULT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE `customer` (
   `STATE` varchar(30) DEFAULT NULL,
   `STREET` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -51,7 +51,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (1,'#12 2nd floor','mts layout','Bangalore',1490800777299,10021173663989,'mbmahesha47@gmail.com','CNF','mahesha',0,'hoysala circle','mb',1490800777299,1490800803098,'8951626085','560060','Karnataka','Kengeri upanagar');
+INSERT INTO `customer` VALUES (1,'#25, 2nd floor 13 B Cross','mts layout','Bangalore',1491937205383,10021668382447,'mbmahesha47@gmail.com','CNF','Mahesha',0,'hoysala circle','M B',1491937205383,1491937248025,'8951626085','560060','Karnataka','Kengeri upanagar');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,7 +76,7 @@ CREATE TABLE `menus` (
   `MODIFIED_ON` bigint(20) NOT NULL DEFAULT '0',
   `IS_DELETED` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -85,7 +85,7 @@ CREATE TABLE `menus` (
 
 LOCK TABLES `menus` WRITE;
 /*!40000 ALTER TABLE `menus` DISABLE KEYS */;
-INSERT INTO `menus` VALUES (47,1,20170312,1489299370637,'breakfast-title-1','breakfast-subtitle-1','breakfast-desc-1',100,'N/A',1489233279672,1489233279677,0),(48,2,20170312,1489299370637,'Lunch-title-1','Lunch-subtitle-1','Lunch-desc-1',22221,'N/A',1489233298262,1489233298266,0),(50,3,20170312,1489299370637,'Dinner-title','Dinner-subtitle','Dinner-desc',12345,'N/A',1489101547286,1489101547286,0),(51,1,20170313,1489385760000,'breakfast-title-2','breakfast-subtitle-2','breakfast-desc-2',1000,'N/A',1489233268892,1489233268901,0),(52,2,20170313,1489385760000,'Lunch-title-2','Lunch-subtitle-2','Lunch-desc-2',2000,'N/A',1489231751331,1489231751363,0),(53,3,20170313,1489385760000,'Dinner-title-2','Dinner-subtitle-2','Dinner-desc-2',3000,'N/A',1489231760245,1489231760245,0),(54,1,20170315,1489516200000,'bf-title-15','bf-subtitle-15','bf-desc-15',1500,'N/A',1489733595627,1489733595712,0),(55,2,20170315,1489516200000,'lc-title-15','lc-subtitle-15','lc-desc-15',150,'N/A',1489697231093,1489697231093,0),(56,3,20170315,1489516200000,'dn-title-15','dn-subtitle-15','dn-desc-15',15,'N/A',1489697465311,1489697465311,0),(57,1,20170325,1490385561567,'today-bf-title','today-bf-subtitle','today-bf-desc',120,'N/A',1490348347365,1490348347372,0),(58,3,20170325,1490385561567,'today-dinner-title','today-dinner-subtitle','today-dinner-desc',200,'N/A',1490348197457,1490348197457,0),(59,2,20170325,1490385561567,'today-lunch-title','today-lunch-subtitle','today-lunch-desc',300,'N/A',1490348265116,1490348265124,0),(60,1,20170326,1490466600000,'tomorrow-bf-title','tomorrow-bf-subtitle','tomorrow-bf-desc',4747,'20170326_bfst.jpg',1490424886286,1490424886348,0),(61,2,20170326,1490466600000,'tomorrow-ln-title','tomorrow-ln-subtitle','tomorrow-ln-desc',7474,'20170326_luch.jpg',1490431618399,1490431618404,0),(62,3,20170326,1490466600000,'tomorrow-dn-title','tomorrow-dn-subtitle','tomorrow-dn-desc',3333,'20170326_dinr.png',1490432120006,1490432120006,0),(63,1,20170329,1490798563371,'Wed-breakfast-title','Wed-breakfast-subtitle','Wed-breakfast-desc',100,'20170329_bfst.jpg',1490798643819,1490798643819,0),(64,3,20170329,1490798563371,'Wed-dinner-title','Wed-dinner-subtitle','Wed-dinner-desc',300,'20170329_dinr.jpg',1490798767186,1490798767186,0),(65,2,20170329,1490798563371,'Wed-lunch-title','Wed-lunch-subtitle','Wed-lunch-desc',200,'20170329_luch.jpg',1490798823151,1490798823151,0),(66,1,20170330,1490812200000,'thu-title','thu-subtitle','thu-dec',111,'20170330_bfst.jpg',1490800953186,1490800953186,0),(67,2,20170330,1490812200000,'thu-lunch-title','thu-lunch-subtitle','thu-lunch-desc',222,'20170330_luch.jpg',1490800987649,1490800987649,0),(68,3,20170330,1490812200000,'thu-dinner-title','thu-dinner-subtitle','thu-dinner-desc',333,'20170330_dinr.jpg',1490801019678,1490801019678,0);
+INSERT INTO `menus` VALUES (69,1,20170412,1491937281602,'Traditional Wednesday with Foodbox','Breakfast combination','A super combination of GHEE Khara bath and banana salad',50,'20170412_bfst.jpg',1491937396755,1491937396755,0),(70,2,20170412,1491937281602,'Lunch Box','2 phulkas with special Pinapple gravy','+Foodbox famous puliyogare +cure rice',70,'20170412_luch.jpg',1491937435305,1491937435305,0),(71,3,20170412,1491937281602,'Tonight dinner','2 phulkas with tomato-onion curry','+Veg Biriyani with raita',60,'20170412_dinr.jpg',1491937491145,1491937491145,0),(72,1,20170413,1492021800000,'Tremendous Thusday with foodbox','Breakfast combination','3 Idlies +vada with bidadi style chutney',40,'20170413_bfst.jpg',1491937586272,1491937586272,0);
 /*!40000 ALTER TABLE `menus` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -97,7 +97,7 @@ DROP TABLE IF EXISTS `orderitem`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `orderitem` (
-  `ID` bigint(20) NOT NULL,
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `CREATED_ON` bigint(20) NOT NULL DEFAULT '0',
   `FOOD_ID` bigint(20) NOT NULL,
   `IS_DELETED` int(11) NOT NULL DEFAULT '0',
@@ -109,7 +109,7 @@ CREATE TABLE `orderitem` (
   `STATUS` varchar(20) NOT NULL,
   `VALUE` varchar(20) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,7 +118,7 @@ CREATE TABLE `orderitem` (
 
 LOCK TABLES `orderitem` WRITE;
 /*!40000 ALTER TABLE `orderitem` DISABLE KEYS */;
-INSERT INTO `orderitem` VALUES (1,1490801058635,68,0,1490801969220,112572725635,'333','1','-2065082582','DLRD','333'),(2,1490801058635,66,0,1490801969226,112572725635,'111','1','-2067052696','DLRD','111'),(3,1490801058635,67,0,1490801969226,112572725635,'222','1','-2066067639','DLRD','222'),(4,1490802001289,66,0,1490802052861,112572720670,'111','1','1893271123','CNFD','111'),(5,1490802983770,66,0,1490802999992,112572721663,'111','2','-1484638796','INIT','222');
+INSERT INTO `orderitem` VALUES (1,1491937724056,69,0,1491940714786,114112795250,'50','1','1774179432','DLRD','50'),(2,1491937724056,70,0,1491940714798,114112795250,'70','1','1774268867','DLRD','70'),(3,1491938789105,72,0,1491940714798,114112795250,'40','3','1774286072','DLRD','120'),(4,1491938889051,71,0,1491940714798,114112795250,'60','2','1774315832','DLRD','120'),(5,1491938926770,71,0,1491940714704,114112842215,'60','1','-2067654983','DLRD','60'),(6,1491940483329,70,0,1491940537460,114112842184,'70','1','-2107366355','CNFD','70'),(7,1491940653845,72,0,1491940665069,114112794351,'40','5','958817990','INIT','200');
 /*!40000 ALTER TABLE `orderitem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,7 +130,7 @@ DROP TABLE IF EXISTS `orders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `orders` (
-  `ID` bigint(20) NOT NULL,
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `CREATED_ON` bigint(20) NOT NULL DEFAULT '0',
   `CUSTOMER_ITEM_ID` bigint(20) NOT NULL,
   `DELIVERY_ON` bigint(20) NOT NULL,
@@ -140,7 +140,7 @@ CREATE TABLE `orders` (
   `ORDER_STATUS` varchar(20) NOT NULL,
   `TOTAL_VALUE` varchar(20) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,7 +149,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,1490801058634,10021173663989,0,0,1490801969147,112572725635,'DLRD','666'),(2,1490802001252,10021173663989,0,0,1490802052782,112572720670,'CNFD','111'),(3,1490802983722,10021173663989,0,0,1490802999953,112572721663,'INIT','222');
+INSERT INTO `orders` VALUES (1,1491937724055,10021668382447,90,0,1491940714746,114112795250,'DLRD','120'),(4,1491938926723,10021668382447,30,0,1491940714622,114112842215,'DLRD','60'),(5,1491940483268,10021668382447,180,0,1491940537391,114112842184,'CNFD','70'),(6,1491940653771,10021668382447,300,0,1491940664948,114112794351,'INIT','200');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,6 +178,31 @@ LOCK TABLES `privilege` WRITE;
 /*!40000 ALTER TABLE `privilege` DISABLE KEYS */;
 INSERT INTO `privilege` VALUES (1,'2016-01-26 23:16:43',0,'2016-01-26 23:16:43','Dashboard'),(2,'2016-01-26 23:16:43',0,'2016-01-26 23:16:43','EmployeeList'),(3,'2016-01-26 23:16:43',0,'2016-01-26 23:16:43','Managment');
 /*!40000 ALTER TABLE `privilege` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `props`
+--
+
+DROP TABLE IF EXISTS `props`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `props` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `PROPS_KEY` varchar(30) NOT NULL,
+  `PROPS_VALUE` varchar(30) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `props`
+--
+
+LOCK TABLES `props` WRITE;
+/*!40000 ALTER TABLE `props` DISABLE KEYS */;
+INSERT INTO `props` VALUES (1,'MENU_BLOCK','1');
+/*!40000 ALTER TABLE `props` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -217,13 +242,13 @@ DROP TABLE IF EXISTS `role_privilege`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `role_privilege` (
-  `ROLE_ID` bigint(20) NOT NULL,
+  `ROLE_ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `PRIVILEGE_ID` bigint(20) NOT NULL,
   PRIMARY KEY (`ROLE_ID`,`PRIVILEGE_ID`),
   KEY `FK_m4sky3qieevica6xjahjnitap` (`PRIVILEGE_ID`),
   CONSTRAINT `FK_4jed2h7jlcbho9rhs8m47exj3` FOREIGN KEY (`ROLE_ID`) REFERENCES `role` (`ROLE_ID`),
   CONSTRAINT `FK_m4sky3qieevica6xjahjnitap` FOREIGN KEY (`PRIVILEGE_ID`) REFERENCES `privilege` (`PRIVILEGE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -281,4 +306,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-30 11:36:21
+-- Dump completed on 2017-04-16 10:49:50

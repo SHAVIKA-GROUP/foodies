@@ -12,15 +12,15 @@
 <!-- Main content -->
 <section class="content">
 	<div class="row" ng-controller="ctrlMenulist">
-		<div class="col-xs-12">
+		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="box">
 				
 				<div class="box-header with-border">
-					<div class="col-sm-12">
-						<div class="col-xs-10 pull-left">
+					<div class="col-md-10 col-sm-8 col-xs-8">
+						<div class="col-lg-10 col-md-10 col-sm-9 col-xs-9 pull-left">
 						<span class="fa fa-square" style="color:blue"></span>  'SATURDAY' &nbsp; / &nbsp; 
 						<span class="fa fa-square" style="color:#EECC00"></span>  'SUNDAY'</div>
-						<div class="col-xs-2">
+						<div class="col-md-2 col-sm-3 col-xs-3 pull-right">
 							<a href="" ng-click="navigate2menudetail(org)"
 								class="btn bth-lg btn-block btn-success"><i
 								class="fa fa-plus-square"></i>&nbsp;&nbsp;Add Menu</a>
@@ -32,7 +32,7 @@
 					<!-- ***************************************************************  -->
 					<div class="row">
 						<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
-						<div class="col-lg-4 col-xs-6" ng-repeat="menu in menulist">
+						<div class="col-md-4 col-sm-12 col-xs-12" ng-repeat="menu in menulist">
 							<div ng-class="checksunday(menu.date)" > <!-- class="small-box bg-aqua" -->
 								<span class="small-box-footer"><h4><i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp;&nbsp;{{getFormatedDate(menu.date)}}</h4> </span>
 								<div class="inner">

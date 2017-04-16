@@ -8,11 +8,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,21 +21,27 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.shavika.foodies.api.dto.Menus;
 import com.shavika.foodies.api.dto.PojoMenuDetail;
+import com.shavika.foodies.api.dto.Props;
 import com.shavika.foodies.api.dto.UserLogin;
 import com.shavika.foodies.api.exception.ShavikaAppException;
 import com.shavika.foodies.common.service.MenuService;
+import com.shavika.foodies.common.service.PropsService;
+import com.shavika.foodies.common.service.UserService;
 import com.shavika.foodies.common.utilities.Constants;
-import com.shavika.foodies.common.utilities.DateTimeUtil;
 
 @RestController
 public class MenuServiceController {
 
 	@Autowired
 	private MenuService menuService;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private PropsService propsService;
 
 	@RequestMapping(value = "/menuservice", method = RequestMethod.GET)
 	public ResponseEntity<List<PojoMenuDetail>> listAllMenus() throws ShavikaAppException {
@@ -122,5 +126,15 @@ public class MenuServiceController {
 		}
 		return new ResponseEntity<String>(returndata, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/menuBlockStatConfgservice", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Props> getMenuBlockStatusConfg() throws ShavikaAppException {
+		System.out.println("============= [menuBlockStatConfgservice]GET.../");
+		Props props = propsService.updateSyncDashboard();
+		if (props == null)
+			return new ResponseEntity<Props>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<Props>(props, HttpStatus.OK);
+	}
+
 
 }

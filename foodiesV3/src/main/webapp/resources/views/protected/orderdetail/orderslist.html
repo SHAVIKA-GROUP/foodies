@@ -16,40 +16,41 @@
 	<!-- =========================================================== -->
 
 	<div class="row" ng-controller="ordersListCtrl">
-		<div class="col-xs-12">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<div class="box box-info">
-			<!-- 
+			
 				<div class="box-header">
 					<div class="form-group">
-						<div class="col-sm-7">&nbsp;</div>
-						<div class="col-sm-4">
+						<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+							<button type="button" class="btn btn-info pull-left" ng-click="viewBulkConfig()" data-toggle='modal' data-target='#bulkconfigModal' ng-disabled="bulkisDisabled">Bulk Status Change</button>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 							<div class="input-group pull-right">
 								<div class="input-group-addon">
 									<i class="fa fa-filter"></i>
 								</div>
-								<select class="form-control select2" style="width: 100%;">
-									<option value="1" selected="selected">--- All ---</option>
-									<option value="2">Placed Orders</option>
-									<option value="3">Oder Confirmed</option>
-									<option value="4">Rejected Orders</option>
-									<option value="5">Next Day Orders</option>
-									<option value="6">Delivered Orders</option>
+								<select class="form-control select2" style="width: 100%;" ng-model="orderstatusfilter">
+									<option value="">--- All ---</option>
+									<option value="1">Placed / Initiated Orders</option>
+									<option value="2">Oder Confirmed</option>
+									<option value="3">Rejected Orders</option>
+									<option value="4">Delivered Orders</option>
 								</select>
 							</div>
 						</div>
-						<div class="col-sm-1">
-							<button type="button" class="btn btn-info pull-right" ng-click="goFilterOrdre()">Go</button>
+						<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+							<button type="button" class="btn btn-info pull-right" ng-click="goFilterOrder()">Go</button>
 						</div>
 					</div>
 				</div>
-				-->
+				
 				<div class="box-body">
 					<table id="example1" datatable="ng" dt-options="dtOptions" class="table table-bordered table-striped">
 						<thead>
 							<tr>
 								<th align="center">#</th>
 								<th align="center">Order ID</th>
-								<th align="center">Order Time</th>
+								<th align="center">Order Time /<br/> Expected_Time</th>
 								<th align="center">CustomerName</th>
 								<th align="center">Address</th>
 								<th align="center">Phone</th>
@@ -59,9 +60,12 @@
 						</thead>
 						<tbody ng-hide="loading">
 							<tr data-ng-repeat="order in orders">
-								<td>{{$index + 1}}</td>
+								<td><div class="input-group">{{$index + 1}}&nbsp;<span class="input-group-addon">
+								<input type="checkbox" ng-model="checkbox[$index]" ng-change="alert(order.orders.order_item_id)"></span></div></td>
 								<td><b><i>{{order.orders.order_item_id}}</i></b></td>
-								<td>{{getFormatedDate(order.orders.created_on)}}</td>
+								<td>{{getFormatedDate(order.menus[0].date)}}
+									/<br/>[<b><i>{{decodeMinitus(order.orders.delivery_on)}}</i></b>]
+								</td>
 								<td>{{order.customer.first_name}} {{order.customer.last_name}}</td>
 								<td width='30%'>{{order.customer.address_1}}, {{order.customer.address_2}}, {{order.customer.street}}
 								, {{order.customer.land_mark}}. {{order.customer.city}} - {{order.customer.pincode}}
@@ -127,35 +131,62 @@
 							</div>
 						</div>
 					</div>
-						<!-- *********************** MODULE 2 for Order Configuration **************** -->
-						<div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-								<input type="hidden" name="model_order_id" ng-model="model_order_id" ng-value="{{model_order_id}}" />
-								<input type="hidden" name="model_order_status" ng-model="model_order_status" ng-value="{{model_order_status}}" />
-									<div class="modal-header" align="left">
-										<h4 class="modal-title" id="myModalLabel">Order Status</h4>
-									</div>
-									<div class="modal-body">
-									<input type="hidden" id="order-status-submit-id" name="order-status-submit-id" value="1" />
-										<div class="form-group">
-											<div class="col-md-12">
-												<p>
-												<h4 id='order-status-submit'>Click Submit for <b>" {{getModuleConfigStatus()}} " </b>the Order <i>{{model_order_id}}</i>...</h4>
-												</p>
-											</div>
+					<!-- *********************** MODULE 2 for Order Configuration **************** -->
+					<div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+							<input type="hidden" name="model_order_id" ng-model="model_order_id" ng-value="{{model_order_id}}" />
+							<input type="hidden" name="model_order_status" ng-model="model_order_status" ng-value="{{model_order_status}}" />
+								<div class="modal-header" align="left">
+									<h4 class="modal-title" id="myModalLabel">Order Status Change</h4>
+								</div>
+								<div class="modal-body">
+								<input type="hidden" id="order-status-submit-id" name="order-status-submit-id" value="1" />
+									<div class="form-group">
+										<div class="col-md-12">
+											<p>
+											<h4 id='order-status-submit'>Click Submit for <b>" {{getModuleConfigStatus()}} " </b>the Order <i>{{model_order_id}}</i>...</h4>
+											</p>
 										</div>
 									</div>
-									<div class="modal-footer">
-										<button class="btn btn-success" id="order_status_submit_btn" ng-click="order_status_submit()" name="forgot-pwd-submit" type="submit" ng-disabled="isDisabled" >Submit</button>
-										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-									</div>
+								</div>
+								<div class="modal-footer">
+									<button class="btn btn-success" id="order_status_submit_btn" ng-click="order_status_submit()" name="forgot-pwd-submit" type="submit" ng-disabled="isDisabled" >Submit</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 								</div>
 							</div>
+						</div>
 						<div id="mydivloader">
 							    <img src="./resources/assets/image/ajax-loader.gif" class="ajax-loader"/>
 						</div>
+					</div>
+					<!-- *********************** MODULE 3 for Bulk Order Configuration **************** -->
+					<div class="modal fade" id="bulkconfigModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header" align="left">
+									<h4 class="modal-title" id="myModalLabel">Bulk Order Status Change</h4>
+								</div>
+								<div class="modal-body">
+								<input type="hidden" id="order-status-submit-id" name="order-status-submit-id" value="1" />
+									<div class="form-group">
+										<div class="col-md-12">
+											<p>
+											<h4 id='order-status-submit'>Are you sure, you are going to submit bulk item id's <br>{{model_bulk_order_id}}</i>.</h4>
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button class="btn btn-success" id="order_bulk_status_submit_btn" ng-click="order_bulk_status_submit()" name="forgot-pwd-submit" type="submit" ng-disabled="isDisabled1" >Submit</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</div>
 						</div>
+						<div id="mybulkdivloader">
+							    <img src="./resources/assets/image/ajax-loader.gif" class="ajax-loader"/>
+						</div>
+					</div>
 					
 			</div>
 		</div>
@@ -165,6 +196,7 @@
 <script>
 	$(function() {
 		$("#example1").DataTable();
+		
 		$('#example2').DataTable({
 			"paging" : true,
 			"lengthChange" : true,
@@ -173,5 +205,6 @@
 			"info" : true,
 			"autoWidth" : false
 		});
+		
 	});
 </script>

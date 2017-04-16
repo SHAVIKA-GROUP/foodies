@@ -165,9 +165,9 @@ indexapp.controller('menuCtrl', [ '$scope', '$location', '$routeParams', '$filte
                 console.log("=================> calling $scope.menu.bfst_image==="+$scope.menu.bfst_image);
                 console.log("=================> calling $scope.menu.luch_image==="+$scope.menu.luch_image);
                 console.log("=================> calling $scope.menu.dinr_image==="+$scope.menu.dinr_image);
-            	if(null != $scope.menu.bfst_image || !$scope.menu.bfst_image === 'N/A') { $scope.bfst_image = imagepath+$scope.menu.bfst_image };
-            	if(null != $scope.menu.luch_image || !$scope.menu.luch_image === 'N/A') { $scope.luch_image = imagepath+$scope.menu.luch_image };
-            	if(null != $scope.menu.dinr_image || !$scope.menu.dinr_image === 'N/A') { $scope.dinr_image = imagepath+$scope.menu.dinr_image };
+            	if(undefined != $scope.menu.bfst_image || null != $scope.menu.bfst_image || !$scope.menu.bfst_image === 'N/A') { $scope.bfst_image = imagepath+$scope.menu.bfst_image } else { $scope.bfst_image = imagepath+'image_icon.png';}
+            	if(undefined != $scope.menu.luch_image || null != $scope.menu.luch_image || !$scope.menu.luch_image === 'N/A') { $scope.luch_image = imagepath+$scope.menu.luch_image } else { $scope.luch_image = imagepath+'image_icon.png';}
+            	if(undefined != $scope.menu.dinr_image || null != $scope.menu.dinr_image || !$scope.menu.dinr_image === 'N/A') { $scope.dinr_image = imagepath+$scope.menu.dinr_image }else { $scope.dinr_image = imagepath+'image_icon.png';}
                 if(typeof(response.data.date)  === "undefined"){
                 	$('#mydiv').hide();	$('#mydiv1').hide(); $('#mydiv2').hide(); $("#bfst_alert_message").empty();
                 	$("#bfst-alert").show();

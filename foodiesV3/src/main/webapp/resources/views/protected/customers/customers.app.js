@@ -18,7 +18,7 @@ indexapp.controller('customersListCtrl', function($scope, $window, $location, $h
 		$scope.loading = true;
 		$http.get(customersList).success(function(data, status, headers, config) {
 			console.log("=================> Rest response [SUCCESS] status=" + status);
-			console.log("=================> Rest response [SUCCESS] DATA=" + data);
+			console.log("=================> Rest response [SUCCESS] DATA=" + data.customer_item_id);
 			$scope.loading = false;
 			$scope.customers = data;
 		}).error(function(data, status, headers, config) {

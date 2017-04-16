@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -20,7 +22,8 @@ import com.shavika.foodies.common.utilities.DateTimeUtil;
 @NamedQueries({ @NamedQuery(name = OrdersDao.GET_ORDERS_WITHOUT_RECEIVED , query = " from Orders O where O.order_status not in ( '"+Constants.ORDER_RECEIVED+"' ) order by O.created_on desc"),
 	@NamedQuery(name = OrdersDao.GET_ORDERS_BY_ITEMID, query = " from Orders O where O.order_item_id = ? "),
 	@NamedQuery(name = OrdersDao.GET_ORDERS_BY_CUSTOMER, query = " from Orders O where O.customer_item_id = ? "),
-@NamedQuery(name = OrdersDao.GET_ORDERS_SYNC_ORDERS, query = " from Orders O where O.order_status = ? ")})
+	@NamedQuery(name = OrdersDao.GET_ORDERS_SYNC_ORDERS, query = " from Orders O where O.order_status = ? "),
+	@NamedQuery(name = OrdersDao.GET_ORDERS_BY_ITEMIDS, query = " from Orders O where O.order_item_id IN (?) ")})
 @Entity
 @Table(name = "ORDERS")
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -29,7 +32,7 @@ public class Orders implements Serializable {
 	private static final long serialVersionUID = 8354380977888100599L;
 
 	@Id
-	//@GeneratedValue
+	//@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "ID")
 	private long id;
 	

@@ -9,7 +9,6 @@ public class SyncDashBoard {
 
 	public SyncDashBoard() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public SyncDashBoard(String service, int size, int all, double percentage) {
